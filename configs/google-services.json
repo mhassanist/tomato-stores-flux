@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "301749749087",
+    "project_id": "tomatostores-c4d32",
+    "storage_bucket": "tomatostores-c4d32.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:301749749087:android:fdab5ba81a5d43829222ea",
+        "android_client_info": {
+          "package_name": "net.mobingo.tomatostores"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "301749749087-lhc3550c2kh6f976921nvlenso4nf30q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.mobingo.tomatostores",
+            "certificate_hash": "09cc819c626da11a93d8f84df007338a8cd9c860"
+          }
+        },
+        {
+          "client_id": "301749749087-pchpisn2obq8ncp6f5qinj4kcmotacsj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.mobingo.tomatostores",
+            "certificate_hash": "ab80caa204b0dcdcb868f9b8b2865fd20db366ea"
+          }
+        },
+        {
+          "client_id": "301749749087-3k688plg6gflclu3uo0tv2djanad01gc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeuO3WFgtmh4mdQayj9dOZu9O_VMfytfY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "301749749087-3k688plg6gflclu3uo0tv2djanad01gc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "301749749087-1a5h6ob6s9frasg1msnvomcetn7rhcng.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "net.mobingo.tomatostores",
+                "app_store_id": "6473190772"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
