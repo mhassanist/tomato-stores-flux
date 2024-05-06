@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../common/tools/navigate_tools.dart';
+import '../../data/boxes.dart';
 import '../../models/index.dart';
 import 'loyalty_provider.dart';
 
@@ -27,58 +28,45 @@ class _LoyaltyPageState extends State<LoyaltyPage> {
   @override
   Widget build(BuildContext context) {
     var _user = Provider.of<UserModel>(context);
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<LoyaltyProvider>(create: (_) {
-          return LoyaltyProvider();
-        })
-      ],
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("Loyalty"),
-        ),
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: _buildBody(context, _user),
-          ),
+    var loyaltyProvider = Provider.of<LoyaltyProvider>(context);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Loyalty"),
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: _buildBody(context, _user, loyaltyProvider),
         ),
       ),
     );
   }
 
-  Widget _buildBody(BuildContext context, UserModel user) {
+  Widget _buildBody(
+      BuildContext context, UserModel user, LoyaltyProvider loyaltyProvider) {
     if (user.loggedIn) {
-      return _loggedInState(context);
+      return _loggedInState(context, loyaltyProvider);
     } else {
+      loyaltyProvider.connectionState = LoyaltyPageStates.initial;
       return _notLoggedInState(context);
     }
   }
 
-  Widget _loggedInState(BuildContext context) {
+  Widget _loggedInState(BuildContext context, loyaltyProvider) {
     // return Container(
     //   child: Text('Logged in'),
     // );
 
-    var loyaltyProvider = Provider.of<LoyaltyProvider>(context);
-    if (loyaltyProvider.connectionState == ConnectionState.waiting) {
-      return Center(child: CircularProgressIndicator());
+    if (loyaltyProvider.connectionState == LoyaltyPageStates.initial) {
+      loyaltyProvider.fetchUserPhone(UserBox().userInfo!.email!);
+      return const Center(child: CircularProgressIndicator());
+    } else if (loyaltyProvider.connectionState ==
+        LoyaltyPageStates.errorNoAddress) {
+      return _errorState(context);
     } else {
       return _phoneWidget(context, loyaltyProvider.userPhone);
     }
-    return Consumer<LoyaltyProvider>(
-      builder: (context, userPhoneProvider, _) {
-        return FutureBuilder(
-          future: userPhoneProvider.fetchUserPhone("msaudi.cse@gmail.com"),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-            } else if (snapshot.hasError) {
-              return _errorState(context);
-            } else {}
-          },
-        );
-      },
-    );
   }
 
   Widget _notLoggedInState(BuildContext context) {
@@ -123,52 +111,3 @@ class _LoyaltyPageState extends State<LoyaltyPage> {
     );
   }
 }
-//
-//
-// class LoyaltyPage extends StatefulWidget {
-//   const LoyaltyPage({Key? key}) : super(key: key);
-//
-//   @override
-//   State<LoyaltyPage> createState() => _LoyaltyPageState();
-// }
-//
-// class _LoyaltyPageState extends State<LoyaltyPage> {
-//   bool isLoggedIn = false;
-//
-//   @override
-//   void initState() {
-//     isLoggedIn = UserBox().isLoggedIn;
-//     LoyaltyWebService().getUserPhone("msaudi.cse@gmail.com");
-//     super.initState();
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     var _user = Provider.of<UserModel>(context);
-//
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text("Loyalty"),
-//       ),
-//       body: SafeArea(
-//         child: Padding(
-//           padding: const EdgeInsets.all(18.0),
-//           child: _user.loggedIn
-//               ? Container(
-//                   child: Text("I'm logged in: "),
-//                 )
-//               : Center(
-//                   child: ElevatedButton(
-//                       onPressed: () {
-//                         NavigateTools.navigateToLogin(
-//                           context,
-//                           replacement: false,
-//                         );
-//                       },
-//                       child: Text("login")),
-//                 ),
-//         ),
-//       ),
-//     );
-//   }
-// }

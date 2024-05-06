@@ -28,23 +28,20 @@ class LoyaltyWebService {
   }
 
   Future<FutureOr> onValue(Response response) async {
-    try {
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> responseData = json.decode(response.body);
-        List items = responseData['items'];
-        if (items.isEmpty) {
-          throw LoyaltyNoAddressException();
-        }
-        var telephone = items[0]['addresses'][0]['telephone'];
-        if (telephone == null) {
-          throw LoyaltyNoPhoneException();
-        }
-        return telephone;
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      List items = responseData['items'];
+      if (items.isEmpty) {
+        throw LoyaltyNoAddressException();
       }
-    } catch (err) {
-      await onError(err);
+      var telephone = items[0]['addresses'][0]['telephone'];
+      if (telephone == null) {
+        throw LoyaltyNoPhoneException();
+      }
+      return telephone;
+    } else {
+      onError("Can't Access the Web!");
     }
-    //print(responseData['items'][0]['addresses'][0]['telephone']);
   }
 
   Future<FutureOr> onError(error) async {

@@ -24,6 +24,7 @@ import '../routes/flux_navigate.dart';
 import '../routes/route.dart';
 import '../screens/index.dart' show NotificationScreen;
 import '../screens/loyalty/loyalty.dart';
+import '../screens/loyalty/loyalty_provider.dart';
 import '../screens/settings/rate_myapp_mixin.dart';
 import '../screens/users/age_restriction_screen.dart';
 import '../services/services.dart';
@@ -283,7 +284,14 @@ class MainTabsState extends CustomOverlayState<MainTabs>
 
     /// ---------------------- LOYALTY UI ADDED MANUALLY ---------------- ///
     //OVERRIDE last tab view to be our loyalty logic
-    _tabView[_tabView.length - 1] = LoyaltyPage();
+    _tabView[_tabView.length - 1] = MultiProvider(providers: [
+      ChangeNotifierProvider<LoyaltyProvider>(create: (_) {
+        return LoyaltyProvider();
+      }),
+      ChangeNotifierProvider<UserModel>(create: (_) {
+        return UserModel.instance;
+      }),
+    ], child: LoyaltyPage());
 
     /// ---------------------- LOYALTY UI ADDED MANUALLY ---------------- ///
 

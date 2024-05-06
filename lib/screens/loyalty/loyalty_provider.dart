@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'loyalty_services.dart';
 
+enum LoyaltyPageStates { waiting, fetched, errorNoAddress, initial }
+
 class LoyaltyProvider extends ChangeNotifier {
   String _userPhone = '';
 
-  late ConnectionState connectionState; // Initial state for user phone
+  LoyaltyPageStates connectionState =
+      LoyaltyPageStates.waiting; // Initial state for user phone
 
   // Getter for user phone
   String get userPhone => _userPhone;
@@ -13,16 +16,14 @@ class LoyaltyProvider extends ChangeNotifier {
   // Method to fetch user phone and update state
   Future<void> fetchUserPhone(String email) async {
     try {
-      connectionState = ConnectionState.waiting;
-      notifyListeners();
-
       dynamic result = await LoyaltyWebService.instance.getUserPhone(email);
-
       _userPhone = result.toString();
-      connectionState = ConnectionState.done;
+      connectionState = LoyaltyPageStates.fetched;
       notifyListeners();
     } catch (error) {
       print('Error fetching user phone: $error');
+      connectionState = LoyaltyPageStates.errorNoAddress;
+      notifyListeners();
     }
   }
 }
