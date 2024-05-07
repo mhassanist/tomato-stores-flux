@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 
 import '../../common/tools/navigate_tools.dart';
 import '../../data/boxes.dart';
@@ -31,13 +32,17 @@ class _LoyaltyPageState extends State<LoyaltyPage> {
     var loyaltyProvider = Provider.of<LoyaltyProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Loyalty"),
-      ),
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(18.0),
-          child: _buildBody(context, _user, loyaltyProvider),
+          child: Column(children: [
+            Padding(
+              padding: const EdgeInsets.all(50.0),
+              child: Image.asset('assets/images/tomato_points_logo.jpg'),
+            ),
+            _buildBody(context, _user, loyaltyProvider)
+          ]),
         ),
       ),
     );
@@ -103,11 +108,23 @@ class _LoyaltyPageState extends State<LoyaltyPage> {
   }
 
   Widget _phoneWidget(BuildContext context, String phoneNumber) {
-    return Center(
-      child: Text(
-        "Phone Number: $phoneNumber",
-        style: TextStyle(fontSize: 20),
-      ),
+    return Column(
+      children: [
+        Container(
+          height: 150,
+          child: SfBarcodeGenerator(
+            value: phoneNumber,
+            symbology: Codabar(),
+            showValue: true,
+          ),
+        ),
+        // Center(
+        //   child: Text(
+        //     "Phone Number: $phoneNumber",
+        //     style: TextStyle(fontSize: 20),
+        //   ),
+        // ),
+      ],
     );
   }
 }

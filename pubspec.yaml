@@ -175,6 +175,7 @@ dependencies:
     git:
       url: https://github.com/inspireui/Flutterwave
       ref: fix-xcode-15
+  syncfusion_flutter_barcodes: ^25.1.42
 
   ### Flutter 3 fix warning
   intl_phone_number_input: # custom feature for phone number

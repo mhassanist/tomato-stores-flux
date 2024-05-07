@@ -2282,6 +2282,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  syncfusion_flutter_barcodes:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_barcodes
+      sha256: "22fccf63e0ddfd1c70ea213464f148e3b2b582b65d9c2c6cb8c1f29f5fd3beb4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "25.1.42"
+  syncfusion_flutter_core:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_core
+      sha256: fc61878342caee6da7979ca0ca9bb178f1eb5ca9b836dada34b83caa39e4bfed
+      url: "https://pub.dev"
+    source: hosted
+    version: "25.1.42"
   synchronized:
     dependency: transitive
     description:
