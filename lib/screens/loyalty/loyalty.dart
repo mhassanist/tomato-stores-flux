@@ -9,10 +9,10 @@ import 'add_address.dart';
 import 'loyalty_provider.dart';
 
 /// [done] if not logged in, direct to login page
-/// if logged in, check if has address or not. If has, show phone number
-/// if no address direct to add address screen
+/// [done] if logged in, check if has address or not. If has, show phone number
+/// [done] if no address direct to add address screen
 ///
-/// connect to firebase and get barcode & points if exists
+/// connect to firebase and get points of the user
 /// if not, generate barcode = phone number and save it LoyaltyUsers collection
 /// show barcode and loyalty points : INVNet
 /// firestore cloud function to update user's loyalty points after each new invoice added
@@ -119,10 +119,14 @@ class _LoyaltyPageState extends State<LoyaltyPage> {
         SizedBox(
           height: 150,
           child: SfBarcodeGenerator(
-            value: phoneNumber,
-            symbology: Codabar(),
-            showValue: true,
+            value: '*$phoneNumber*',
+            symbology: Code128A(),
+            showValue: false,
           ),
+        ),
+        SizedBox(
+          height: 150,
+          child: Text(phoneNumber),
         ),
       ],
     );
