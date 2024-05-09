@@ -285,8 +285,8 @@ class MainTabsState extends CustomOverlayState<MainTabs>
     /// ---------------------- LOYALTY UI ADDED MANUALLY ---------------- ///
     //OVERRIDE last tab view to be our loyalty logic
     _tabView[_tabView.length - 1] = MultiProvider(providers: [
-      ChangeNotifierProvider<LoyaltyProvider>(create: (_) {
-        return LoyaltyProvider();
+      ChangeNotifierProvider<LoyaltyModelNotifier>(create: (_) {
+        return LoyaltyModelNotifier();
       }),
       ChangeNotifierProvider<UserModel>(create: (_) {
         return UserModel.instance;

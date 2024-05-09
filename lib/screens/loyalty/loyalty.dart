@@ -5,6 +5,7 @@ import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 import '../../common/tools/navigate_tools.dart';
 import '../../data/boxes.dart';
 import '../../models/index.dart';
+import 'add_address.dart';
 import 'loyalty_provider.dart';
 
 /// [done] if not logged in, direct to login page
@@ -28,8 +29,8 @@ class LoyaltyPage extends StatefulWidget {
 class _LoyaltyPageState extends State<LoyaltyPage> {
   @override
   Widget build(BuildContext context) {
-    var _user = Provider.of<UserModel>(context);
-    var loyaltyProvider = Provider.of<LoyaltyProvider>(context);
+    var user = Provider.of<UserModel>(context);
+    var loyaltyProvider = Provider.of<LoyaltyModelNotifier>(context);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -41,36 +42,33 @@ class _LoyaltyPageState extends State<LoyaltyPage> {
               padding: const EdgeInsets.all(50.0),
               child: Image.asset('assets/images/tomato_points_logo.jpg'),
             ),
-            _buildBody(context, _user, loyaltyProvider)
+            _buildBody(context, user, loyaltyProvider)
           ]),
         ),
       ),
     );
   }
 
-  Widget _buildBody(
-      BuildContext context, UserModel user, LoyaltyProvider loyaltyProvider) {
+  Widget _buildBody(BuildContext context, UserModel user,
+      LoyaltyModelNotifier loyaltyProvider) {
     if (user.loggedIn) {
       return _loggedInState(context, loyaltyProvider);
     } else {
-      loyaltyProvider.connectionState = LoyaltyPageStates.initial;
+      loyaltyProvider.fetchState = LoyaltyPageStates.initial;
       return _notLoggedInState(context);
     }
   }
 
   Widget _loggedInState(BuildContext context, loyaltyProvider) {
-    // return Container(
-    //   child: Text('Logged in'),
-    // );
-
-    if (loyaltyProvider.connectionState == LoyaltyPageStates.initial) {
+    if (loyaltyProvider.fetchState == LoyaltyPageStates.initial) {
       loyaltyProvider.fetchUserPhone(UserBox().userInfo!.email!);
       return const Center(child: CircularProgressIndicator());
-    } else if (loyaltyProvider.connectionState ==
-        LoyaltyPageStates.errorNoAddress) {
-      return _errorState(context);
-    } else {
+    } else if (loyaltyProvider.fetchState == LoyaltyPageStates.loading) {
+      return const Center(child: CircularProgressIndicator());
+    } else if (loyaltyProvider.fetchState == LoyaltyPageStates.fetched) {
       return _phoneWidget(context, loyaltyProvider.userPhone);
+    } else {
+      return _errorState(context);
     }
   }
 
@@ -94,14 +92,22 @@ class _LoyaltyPageState extends State<LoyaltyPage> {
       children: [
         const Text(
           'Error fetching user phone.',
-          style: TextStyle(color: Colors.red),
+          style: TextStyle(
+              color: Colors.red, fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         ElevatedButton(
           onPressed: () {
             // Handle action for adding shipping address
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AddAddressPage()),
+            );
           },
-          child: const Text('Add Shipping Address'),
+          child: const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text('Add Phone Number'),
+          ),
         ),
       ],
     );
@@ -110,7 +116,7 @@ class _LoyaltyPageState extends State<LoyaltyPage> {
   Widget _phoneWidget(BuildContext context, String phoneNumber) {
     return Column(
       children: [
-        Container(
+        SizedBox(
           height: 150,
           child: SfBarcodeGenerator(
             value: phoneNumber,
@@ -118,12 +124,6 @@ class _LoyaltyPageState extends State<LoyaltyPage> {
             showValue: true,
           ),
         ),
-        // Center(
-        //   child: Text(
-        //     "Phone Number: $phoneNumber",
-        //     style: TextStyle(fontSize: 20),
-        //   ),
-        // ),
       ],
     );
   }

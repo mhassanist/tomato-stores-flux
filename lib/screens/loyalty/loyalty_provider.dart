@@ -1,28 +1,41 @@
 import 'package:flutter/material.dart';
 
-import 'loyalty_services.dart';
+import 'loyalty_api.dart';
 
-enum LoyaltyPageStates { waiting, fetched, errorNoAddress, initial }
+enum LoyaltyPageStates {
+  initial,
+  loading,
+  fetched,
+  errorNoAddress,
+  errorNoPhone,
+  errorWebAccess,
+}
 
-class LoyaltyProvider extends ChangeNotifier {
-  String _userPhone = '';
+class LoyaltyModelNotifier extends ChangeNotifier {
+  String? _userPhone;
+  LoyaltyException? _error;
 
-  LoyaltyPageStates connectionState =
-      LoyaltyPageStates.waiting; // Initial state for user phone
+  LoyaltyPageStates fetchState =
+      LoyaltyPageStates.initial; // Initial state for user phone
 
-  // Getter for user phone
-  String get userPhone => _userPhone;
-
-  // Method to fetch user phone and update state
+  String? get userPhone => _userPhone;
   Future<void> fetchUserPhone(String email) async {
     try {
+      // Method to fetch user phone and update state
+      fetchState = LoyaltyPageStates.loading;
+      notifyListeners();
       dynamic result = await LoyaltyWebService.instance.getUserPhone(email);
       _userPhone = result.toString();
-      connectionState = LoyaltyPageStates.fetched;
+      fetchState = LoyaltyPageStates.fetched;
       notifyListeners();
-    } catch (error) {
-      print('Error fetching user phone: $error');
-      connectionState = LoyaltyPageStates.errorNoAddress;
+    } catch (exception) {
+      if (exception is LoyaltyNoPhoneException) {
+        fetchState = LoyaltyPageStates.errorNoPhone;
+      } else if (exception is LoyaltyNoAddressException) {
+        fetchState = LoyaltyPageStates.errorNoAddress;
+      } else if (exception is LoyaltyWebService) {
+        fetchState = LoyaltyPageStates.errorWebAccess;
+      }
       notifyListeners();
     }
   }
