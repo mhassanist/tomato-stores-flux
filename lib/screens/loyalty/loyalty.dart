@@ -143,7 +143,7 @@ class _LoyaltyPageState extends State<LoyaltyPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                "Points",
+                "Store Points",
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 24,
