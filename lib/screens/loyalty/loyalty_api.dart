@@ -22,7 +22,9 @@ class LoyaltyWebService {
         .get();
 
     if (doc.exists) {
-      return doc['StorePoints'].toString();
+      return (double.parse(doc['StorePoints'].toString()) -
+              double.parse(doc['RedeemedPoints'].toString()))
+          .toString();
     } else {
       //create user and return points
       await FirebaseFirestore.instance
@@ -32,7 +34,8 @@ class LoyaltyWebService {
         'Name': name,
         'Email': email,
         'OnlinePoints': 0,
-        'StorePoints': 0
+        'StorePoints': 0,
+        'RedeemedPoints': 0
       });
       return '0';
     }
