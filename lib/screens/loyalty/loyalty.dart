@@ -68,7 +68,7 @@ class _LoyaltyPageState extends State<LoyaltyPage> {
     } else if (loyaltyProvider.fetchState == LoyaltyPageStates.fetched) {
       return _phoneWidget(context, loyaltyProvider.userPhone);
     } else {
-      return _errorState(context);
+      return _errorState(context, loyaltyProvider);
     }
   }
 
@@ -86,7 +86,8 @@ class _LoyaltyPageState extends State<LoyaltyPage> {
     );
   }
 
-  Widget _errorState(BuildContext context) {
+  Widget _errorState(
+      BuildContext context, LoyaltyModelNotifier loyaltyProvider) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -97,12 +98,14 @@ class _LoyaltyPageState extends State<LoyaltyPage> {
         ),
         const SizedBox(height: 20),
         ElevatedButton(
-          onPressed: () {
+          onPressed: () async {
             // Handle action for adding shipping address
-            Navigator.push(
+            await Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const AddAddressPage()),
             );
+
+            loyaltyProvider.fetchUserPhone(UserBox().userInfo!.email!);
           },
           child: const Padding(
             padding: EdgeInsets.all(8.0),
