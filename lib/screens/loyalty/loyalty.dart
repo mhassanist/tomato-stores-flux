@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_barcodes/barcodes.dart';
@@ -61,12 +63,13 @@ class _LoyaltyPageState extends State<LoyaltyPage> {
 
   Widget _loggedInState(BuildContext context, loyaltyProvider) {
     if (loyaltyProvider.fetchState == LoyaltyPageStates.initial) {
-      loyaltyProvider.fetchUserPhone(UserBox().userInfo!.email!);
+      loyaltyProvider.fetchUserPoints(
+          UserBox().userInfo!.fullName, UserBox().userInfo!.email!);
       return const Center(child: CircularProgressIndicator());
     } else if (loyaltyProvider.fetchState == LoyaltyPageStates.loading) {
       return const Center(child: CircularProgressIndicator());
     } else if (loyaltyProvider.fetchState == LoyaltyPageStates.fetched) {
-      return _phoneWidget(context, loyaltyProvider.userPhone);
+      return _phoneWidget(context, loyaltyProvider);
     } else {
       return _errorState(context, loyaltyProvider);
     }
@@ -105,7 +108,8 @@ class _LoyaltyPageState extends State<LoyaltyPage> {
               MaterialPageRoute(builder: (context) => const AddAddressPage()),
             );
 
-            loyaltyProvider.fetchUserPhone(UserBox().userInfo!.email!);
+            unawaited(loyaltyProvider.fetchUserPoints(
+                UserBox().userInfo!.fullName, UserBox().userInfo!.email!));
           },
           child: const Padding(
             padding: EdgeInsets.all(8.0),
@@ -116,20 +120,42 @@ class _LoyaltyPageState extends State<LoyaltyPage> {
     );
   }
 
-  Widget _phoneWidget(BuildContext context, String phoneNumber) {
+  Widget _phoneWidget(BuildContext context, LoyaltyModelNotifier loyaltyModel) {
     return Column(
       children: [
         SizedBox(
           height: 150,
           child: SfBarcodeGenerator(
-            value: '*$phoneNumber*',
+            value: '*${loyaltyModel.userPhone}*',
             symbology: Code128A(),
             showValue: false,
           ),
         ),
         SizedBox(
-          height: 150,
-          child: Text(phoneNumber),
+          height: 20,
+          child: Text(loyaltyModel.userPhone!),
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        Card(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                "Points",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold),
+              ),
+              Text(loyaltyModel.userPoints!,
+                  style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold))
+            ],
+          ),
         ),
       ],
     );

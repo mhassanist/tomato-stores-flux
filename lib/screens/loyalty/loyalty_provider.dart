@@ -13,19 +13,24 @@ enum LoyaltyPageStates {
 
 class LoyaltyModelNotifier extends ChangeNotifier {
   String? _userPhone;
+  String? _userPoints;
   LoyaltyException? _error;
 
   LoyaltyPageStates fetchState =
       LoyaltyPageStates.initial; // Initial state for user phone
 
   String? get userPhone => _userPhone;
-  Future<void> fetchUserPhone(String email) async {
+  String? get userPoints => _userPoints;
+
+  Future<void> fetchUserPoints(String name, String email) async {
     try {
       // Method to fetch user phone and update state
       fetchState = LoyaltyPageStates.loading;
       notifyListeners();
       dynamic result = await LoyaltyWebService.instance.getUserPhone(email);
       _userPhone = result.toString();
+      _userPoints = await LoyaltyWebService.instance
+          .getUserPoints(_userPhone, name, email);
       fetchState = LoyaltyPageStates.fetched;
       notifyListeners();
     } catch (exception) {

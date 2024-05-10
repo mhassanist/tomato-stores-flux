@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flux_firebase/index.dart';
 import 'package:http/http.dart';
 
 class LoyaltyConstants {
@@ -14,6 +15,29 @@ class LoyaltyConstants {
 
 //Singleton Loyalty API Calls Class
 class LoyaltyWebService {
+  Future<String> getUserPoints(phone, name, email) async {
+    var doc = await FirebaseFirestore.instance
+        .collection('LoyaltyUsers')
+        .doc(phone)
+        .get();
+
+    if (doc.exists) {
+      return doc['StorePoints'].toString();
+    } else {
+      //create user and return points
+      await FirebaseFirestore.instance
+          .collection('LoyaltyUsers')
+          .doc(phone)
+          .set({
+        'Name': name,
+        'Email': email,
+        'OnlinePoints': 0,
+        'StorePoints': 0
+      });
+      return '0';
+    }
+  }
+
   Future<FutureOr> getUserPhone(String email) async {
     return await get(
       Uri.parse('${LoyaltyConstants.getCustomerUrl}?'
