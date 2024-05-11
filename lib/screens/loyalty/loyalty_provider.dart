@@ -44,4 +44,27 @@ class LoyaltyModelNotifier extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> redeemUserPoints(String name, String email, points) async {
+    try {
+      // Method to fetch user phone and update state
+      fetchState = LoyaltyPageStates.loading;
+      notifyListeners();
+      dynamic result = await LoyaltyWebService.instance.getUserPhone(email);
+      _userPhone = result.toString();
+      _userPoints = await LoyaltyWebService.instance
+          .redeemUserPoints(_userPhone, name, email, points);
+      fetchState = LoyaltyPageStates.fetched;
+      notifyListeners();
+    } catch (exception) {
+      if (exception is LoyaltyNoPhoneException) {
+        fetchState = LoyaltyPageStates.errorNoPhone;
+      } else if (exception is LoyaltyNoAddressException) {
+        fetchState = LoyaltyPageStates.errorNoAddress;
+      } else if (exception is LoyaltyWebService) {
+        fetchState = LoyaltyPageStates.errorWebAccess;
+      }
+      notifyListeners();
+    }
+  }
 }

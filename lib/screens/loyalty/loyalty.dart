@@ -29,6 +29,9 @@ class LoyaltyPage extends StatefulWidget {
 }
 
 class _LoyaltyPageState extends State<LoyaltyPage> {
+  final TextEditingController _pointsController =
+      TextEditingController(text: '0');
+
   @override
   Widget build(BuildContext context) {
     var user = Provider.of<UserModel>(context);
@@ -40,9 +43,14 @@ class _LoyaltyPageState extends State<LoyaltyPage> {
         child: Padding(
           padding: const EdgeInsets.all(18.0),
           child: Column(children: [
-            Padding(
-              padding: const EdgeInsets.all(50.0),
-              child: Image.asset('assets/images/tomato_points_logo.jpg'),
+            SizedBox(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Image.asset(
+                  'assets/images/tomato_points_logo.jpg',
+                  height: 75,
+                ),
+              ),
             ),
             _buildBody(context, user, loyaltyProvider)
           ]),
@@ -121,43 +129,71 @@ class _LoyaltyPageState extends State<LoyaltyPage> {
   }
 
   Widget _phoneWidget(BuildContext context, LoyaltyModelNotifier loyaltyModel) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 150,
-          child: SfBarcodeGenerator(
-            value: '*${loyaltyModel.userPhone}*',
-            symbology: Code128A(),
-            showValue: false,
+    return Expanded(
+      child: ListView(
+        children: [
+          SizedBox(
+            height: 150,
+            child: SfBarcodeGenerator(
+              value: '*${loyaltyModel.userPhone}*',
+              symbology: Code128A(),
+              showValue: false,
+            ),
           ),
-        ),
-        SizedBox(
-          height: 20,
-          child: Text(loyaltyModel.userPhone!),
-        ),
-        SizedBox(
-          height: 15,
-        ),
-        Card(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                "Store Points",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold),
+              SizedBox(
+                child: Text(loyaltyModel.userPhone!),
               ),
-              Text(loyaltyModel.userPoints!,
-                  style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold))
             ],
           ),
-        ),
-      ],
+          SizedBox(
+            height: 15,
+          ),
+          Card(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  "Store Points",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(loyaltyModel.userPoints!,
+                    style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold))
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            child: TextField(
+              controller: _pointsController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: 'Enter a number',
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              // Add your functionality for the button press here
+              loyaltyModel.redeemUserPoints(
+                  UserBox().userInfo!.fullName!,
+                  UserBox().userInfo!.email!,
+                  double.parse(_pointsController.text));
+              print('Button Pressed');
+            },
+            child: Text('Redeem'),
+          ),
+        ],
+      ),
     );
   }
 }
