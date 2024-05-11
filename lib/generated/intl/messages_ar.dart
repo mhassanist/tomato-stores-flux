@@ -1110,7 +1110,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "seeReviews": MessageLookupByLibrary.simpleMessage("شاهد الآراء"),
         "select": MessageLookupByLibrary.simpleMessage("تحديد"),
         "selectAddress": MessageLookupByLibrary.simpleMessage("اختر العنوان"),
-        "noAddress": MessageLookupByLibrary.simpleMessage("لا يوجد عنوان مسجل"),
         "selectAll": MessageLookupByLibrary.simpleMessage("اختر الكل"),
         "selectDates": MessageLookupByLibrary.simpleMessage("حدد التواريخ"),
         "selectFileCancelled":
