@@ -132,8 +132,22 @@ class _LoyaltyPageState extends State<LoyaltyPage> {
     return Expanded(
       child: ListView(
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                child: Text(
+                  "Welcome, Mohammed",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
           SizedBox(
-            height: 150,
+            height: 100,
             child: SfBarcodeGenerator(
               value: '*${loyaltyModel.userPhone}*',
               symbology: Code128A(),
@@ -170,27 +184,65 @@ class _LoyaltyPageState extends State<LoyaltyPage> {
               ],
             ),
           ),
+          SizedBox(
+            height: 20,
+          ),
+
+          // Padding(
+          //   padding: EdgeInsets.symmetric(horizontal: 20),
+          //   child: TextField(
+          //     controller: _pointsController,
+          //     keyboardType: TextInputType.number,
+          //     decoration: InputDecoration(
+          //       labelText: 'Enter a number',
+          //       border: OutlineInputBorder(),
+          //     ),
+          //   ),
+          // ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            child: TextField(
-              controller: _pointsController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                labelText: 'Enter a number',
-                border: OutlineInputBorder(),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: SizedBox(
+              height: 75,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orange,
+                ),
+                onPressed: () {
+                  // Add your functionality for the button press here
+                  loyaltyModel.redeemUserPoints(
+                      UserBox().userInfo!.fullName!,
+                      UserBox().userInfo!.email!,
+                      double.parse(_pointsController.text));
+                  print('Button Pressed');
+                },
+                child: Text('Vouchers'),
               ),
             ),
           ),
-          ElevatedButton(
-            onPressed: () {
-              // Add your functionality for the button press here
-              loyaltyModel.redeemUserPoints(
-                  UserBox().userInfo!.fullName!,
-                  UserBox().userInfo!.email!,
-                  double.parse(_pointsController.text));
-              print('Button Pressed');
-            },
-            child: Text('Redeem'),
+          SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: SizedBox(
+              height: 75,
+              child: Container(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.deepPurple,
+                  ),
+                  onPressed: () {
+                    // Add your functionality for the button press here
+                    loyaltyModel.redeemUserPoints(
+                        UserBox().userInfo!.fullName!,
+                        UserBox().userInfo!.email!,
+                        double.parse(_pointsController.text));
+                    print('Button Pressed');
+                  },
+                  child: Text('Invoices'),
+                ),
+              ),
+            ),
           ),
         ],
       ),
