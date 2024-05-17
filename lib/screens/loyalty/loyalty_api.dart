@@ -15,29 +15,6 @@ class LoyaltyConstants {
 
 //Singleton Loyalty API Calls Class
 class LoyaltyWebService {
-  Future<String> redeemUserPoints(phone, name, email, points) async {
-    var doc = await FirebaseFirestore.instance
-        .collection('LoyaltyUsers')
-        .doc(phone)
-        .get();
-
-    if (doc.exists) {
-      var redeemedPoints = double.parse(doc['RedeemedPoints'].toString());
-      var storePoints = double.parse(doc['StorePoints'].toString());
-      var remainingPoints = storePoints - redeemedPoints;
-
-      if (remainingPoints > points) {
-        await FirebaseFirestore.instance
-            .collection('LoyaltyUsers')
-            .doc(phone)
-            .update({'RedeemedPoints': (redeemedPoints + points)});
-      }
-      return (remainingPoints - points).toString();
-    } else {
-      return '';
-    }
-  }
-
   Future<String> getUserPoints(phone, name, email) async {
     var doc = await FirebaseFirestore.instance
         .collection('LoyaltyUsers')

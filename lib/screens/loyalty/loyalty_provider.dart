@@ -52,8 +52,8 @@ class LoyaltyModelNotifier extends ChangeNotifier {
       notifyListeners();
       dynamic result = await LoyaltyWebService.instance.getUserPhone(email);
       _userPhone = result.toString();
-      _userPoints = await LoyaltyWebService.instance
-          .redeemUserPoints(_userPhone, name, email, points);
+      // _userPoints = await LoyaltyWebService.instance
+      //     .redeemUserPoints(_userPhone, name, email, points);
       fetchState = LoyaltyPageStates.fetched;
       notifyListeners();
     } catch (exception) {

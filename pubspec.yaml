@@ -14,6 +14,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  barcode_widget: ^2.0.1
 
   inspireui: 1.7.0
 
@@ -208,6 +209,7 @@ dependencies:
   ### ⬇️ Enable In App Update on Android feature
   ### Uncomment file lib/common/tools/in_app_update_for_android.dart
   in_app_update: ^4.2.2
+  flutter_bloc: ^8.1.5
 
 dev_dependencies:
   flutter_lints: ^3.0.1
