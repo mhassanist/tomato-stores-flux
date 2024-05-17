@@ -31,7 +31,7 @@ class VoucherButton extends StatelessWidget {
             padding:
                 const EdgeInsets.symmetric(horizontal: 80.0, vertical: 12.0),
             decoration: BoxDecoration(
-              color: Colors.red,
+              color: Color.fromARGB(255, 155, 34, 39),
               borderRadius: BorderRadius.circular(20.0),
             ),
             child: Text(
