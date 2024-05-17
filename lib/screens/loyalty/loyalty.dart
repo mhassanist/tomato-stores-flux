@@ -11,6 +11,7 @@ import 'add_address.dart';
 import 'loyalty_button.dart';
 import 'loyalty_provider.dart';
 import 'store_points_widget.dart';
+import 'vouvhers_list.dart';
 
 /// [done] if not logged in, direct to login page
 /// [done] if logged in, check if has address or not. If has, show phone number
@@ -189,6 +190,10 @@ class LoyaltyPage extends StatelessWidget {
           text: 'Vouchers',
           onPressed: () {
             // Add your functionality for the button press here
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => VoucherListScreen()),
+            );
           },
           iconPath: 'assets/images/voucher_icon.jpeg',
         ),
