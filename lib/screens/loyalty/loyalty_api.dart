@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:flux_firebase/index.dart';
 import 'package:http/http.dart';
 
+import 'loyalty_logger.dart';
+
 class LoyaltyConstants {
   static const String getCustomerUrl =
       'https://www.tomatostores.com/index.php/rest/V1/customers/search';
@@ -22,10 +24,13 @@ class LoyaltyWebService {
         .get();
 
     if (doc.exists) {
+      await LoyaltyLogger().logEvent('User $phone found .. returning points');
       return (double.parse(doc['StorePoints'].toString()) -
               double.parse(doc['RedeemedPoints'].toString()))
           .toString();
     } else {
+      await LoyaltyLogger()
+          .logEvent('User $phone NOT found .. creating + points');
       //create user and return points
       await FirebaseFirestore.instance
           .collection('LoyaltyUsers')

@@ -30,6 +30,7 @@ import 'screens/blog/models/list_blog_model.dart';
 import 'screens/categories/layouts/fancy_scroll.dart';
 import 'screens/categories/layouts/multi_level.dart';
 import 'screens/index.dart' show ListBlogModel;
+import 'screens/loyalty/loyalty_logger.dart';
 import 'services/firebase_service.dart';
 import 'services/index.dart';
 import 'widgets/overlay/custom_overlay_state.dart';
@@ -222,6 +223,9 @@ class AppState extends State<App>
 
   @override
   void initState() {
+    LoyaltyLogger().clearLogs();
+    LoyaltyLogger().logEvent("Started New Logging");
+
     printLog('[AppState] initState');
     _app = AppModel(widget.languageCode)..setMainSiteConfig();
     WidgetsBinding.instance.addObserver(this);

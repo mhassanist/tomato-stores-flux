@@ -6,12 +6,14 @@ class VoucherButton extends StatelessWidget {
   final String iconPath;
   final String text;
   final VoidCallback onPressed;
+  final enabled;
 
   const VoucherButton({
     super.key,
     required this.iconPath,
     required this.onPressed,
     required this.text,
+    this.enabled,
   });
 
   @override
@@ -31,7 +33,9 @@ class VoucherButton extends StatelessWidget {
             padding:
                 const EdgeInsets.symmetric(horizontal: 80.0, vertical: 12.0),
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 155, 34, 39),
+              color: enabled
+                  ? const Color.fromARGB(255, 155, 34, 39)
+                  : Colors.grey,
               borderRadius: BorderRadius.circular(20.0),
             ),
             child: Text(

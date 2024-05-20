@@ -9,6 +9,7 @@ import '../../data/boxes.dart';
 import '../../models/index.dart';
 import 'add_address.dart';
 import 'loyalty_button.dart';
+import 'loyalty_logger.dart';
 import 'loyalty_provider.dart';
 import 'store_points_widget.dart';
 import 'vouvhers_list.dart';
@@ -47,7 +48,7 @@ class LoyaltyPage extends StatelessWidget {
                 height: 75,
               ),
             ),
-            Expanded(child: _buildBody(context, user, loyaltyProvider))
+            _buildBody(context, user, loyaltyProvider)
           ]),
         ),
       ),
@@ -56,9 +57,14 @@ class LoyaltyPage extends StatelessWidget {
 
   Widget _buildBody(BuildContext context, UserModel user,
       LoyaltyModelNotifier loyaltyProvider) {
+    LoyaltyLogger().logEvent('Building Body');
+
     if (user.loggedIn) {
+      LoyaltyLogger().logEvent('Logged In');
+
       return _loggedInState(context, loyaltyProvider);
     } else {
+      LoyaltyLogger().logEvent('Not Logged In');
       loyaltyProvider.fetchState = LoyaltyPageStates.initial;
       return _notLoggedInState(context);
     }
@@ -66,16 +72,24 @@ class LoyaltyPage extends StatelessWidget {
 
   Widget _loggedInState(BuildContext context, loyaltyProvider) {
     if (loyaltyProvider.fetchState == LoyaltyPageStates.initial) {
+      LoyaltyLogger()
+          .logEvent('State initial - Building CircularProgressIndicator');
+
       loyaltyProvider.fetchUserPoints(
           UserBox().userInfo!.fullName, UserBox().userInfo!.email!);
       return const Center(
           child: Padding(
               padding: EdgeInsets.all(50), child: CircularProgressIndicator()));
     } else if (loyaltyProvider.fetchState == LoyaltyPageStates.loading) {
+      LoyaltyLogger()
+          .logEvent('State loading - Building CircularProgressIndicator');
+
       return const Center(
           child: Padding(
               padding: EdgeInsets.all(50), child: CircularProgressIndicator()));
     } else if (loyaltyProvider.fetchState == LoyaltyPageStates.fetched) {
+      LoyaltyLogger().logEvent('State fetched - Building MainLoyaltyUI');
+
       return _loyaltyMainUI(context, loyaltyProvider);
     } else {
       return _errorState(context, loyaltyProvider);
@@ -83,6 +97,8 @@ class LoyaltyPage extends StatelessWidget {
   }
 
   Widget _notLoggedInState(BuildContext context) {
+    LoyaltyLogger().logEvent('Building not logged UI');
+
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: ElevatedButton(
@@ -92,7 +108,7 @@ class LoyaltyPage extends StatelessWidget {
             replacement: false,
           );
         },
-        child: Text('Login'),
+        child: const Text('Login'),
       ),
     );
   }
@@ -130,6 +146,65 @@ class LoyaltyPage extends StatelessWidget {
 
   Widget _loyaltyMainUI(
       BuildContext context, LoyaltyModelNotifier loyaltyModel) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            'Welcome, ${UserBox().userInfo!.firstName!}',
+            style: const TextStyle(
+                color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+        ),
+        SizedBox(
+          height: 100,
+          child: SfBarcodeGenerator(
+            value: '*${loyaltyModel.userPhone}*',
+            symbology: Code128A(),
+            showValue: false,
+          ),
+        ),
+        Text(loyaltyModel.userPhone!),
+        const SizedBox(height: 15),
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                const Text(
+                  'Store Points',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold),
+                ),
+                UserStorePoints(documentId: loyaltyModel.userPhone!),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 20),
+        VoucherButton(
+          text: 'Vouchers',
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => VoucherListScreen()),
+            );
+          },
+          iconPath: 'assets/images/voucher_icon.jpeg',
+        ),
+        const SizedBox(height: 15),
+        VoucherButton(
+          enabled:false,
+          text: 'Invoices',
+          onPressed: () {},
+          iconPath: 'assets/images/invoices_icon.jpeg',
+        ),
+      ],
+    );
+
     return Column(
       children: [
         Row(
