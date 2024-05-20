@@ -13,7 +13,7 @@ class VoucherButton extends StatelessWidget {
     required this.iconPath,
     required this.onPressed,
     required this.text,
-    this.enabled,
+    this.enabled = true,
   });
 
   @override
