@@ -12,7 +12,7 @@ import 'loyalty_button.dart';
 import 'loyalty_logger.dart';
 import 'loyalty_provider.dart';
 import 'store_points_widget.dart';
-import 'vouvhers_list.dart';
+import 'vouchers_list.dart';
 
 /// [done] if not logged in, direct to login page
 /// [done] if logged in, check if has address or not. If has, show phone number
@@ -97,7 +97,7 @@ class LoyaltyPage extends StatelessWidget {
   }
 
   Widget _notLoggedInState(BuildContext context) {
-    LoyaltyLogger().logEvent('Building not logged UI');
+    LoyaltyLogger().logEvent('Building not logged in UI');
 
     return Padding(
       padding: const EdgeInsets.all(30.0),
@@ -165,7 +165,6 @@ class LoyaltyPage extends StatelessWidget {
           ),
         ),
         Text(loyaltyModel.userPhone!),
-        const SizedBox(height: 15),
         Card(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -190,92 +189,14 @@ class LoyaltyPage extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => VoucherListScreen()),
+              MaterialPageRoute(builder: (context) => VoucherListScreen(loyaltyModel.userPhone)),
             );
           },
           iconPath: 'assets/images/voucher_icon.jpeg',
         ),
         const SizedBox(height: 15),
         VoucherButton(
-          enabled:false,
-          text: 'Invoices',
-          onPressed: () {},
-          iconPath: 'assets/images/invoices_icon.jpeg',
-        ),
-      ],
-    );
-
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Welcome,${UserBox().userInfo!.firstName!}',
-                style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 100,
-          child: SfBarcodeGenerator(
-            value: '*${loyaltyModel.userPhone}*',
-            symbology: Code128A(),
-            showValue: false,
-          ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              child: Text(loyaltyModel.userPhone!),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 15,
-        ),
-        Card(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              const Text(
-                'Store Points',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold),
-              ),
-              UserStorePoints(
-                documentId: loyaltyModel.userPhone!,
-              )
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        VoucherButton(
-          text: 'Vouchers',
-          onPressed: () {
-            // Add your functionality for the button press here
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => VoucherListScreen()),
-            );
-          },
-          iconPath: 'assets/images/voucher_icon.jpeg',
-        ),
-        const SizedBox(
-          height: 15,
-        ),
-        VoucherButton(
+          enabled: false,
           text: 'Invoices',
           onPressed: () {},
           iconPath: 'assets/images/invoices_icon.jpeg',

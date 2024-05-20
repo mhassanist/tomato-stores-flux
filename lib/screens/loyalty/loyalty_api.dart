@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flux_firebase/index.dart';
 import 'package:http/http.dart';
 
@@ -17,7 +18,7 @@ class LoyaltyConstants {
 
 //Singleton Loyalty API Calls Class
 class LoyaltyWebService {
-  Future<String> getUserPoints(phone, name, email) async {
+  Future<int> getUserPoints(phone, name, email) async {
     var doc = await FirebaseFirestore.instance
         .collection('LoyaltyUsers')
         .doc(phone)
@@ -25,9 +26,7 @@ class LoyaltyWebService {
 
     if (doc.exists) {
       await LoyaltyLogger().logEvent('User $phone found .. returning points');
-      return (double.parse(doc['StorePoints'].toString()) -
-              double.parse(doc['RedeemedPoints'].toString()))
-          .toString();
+      return doc['StorePoints'];
     } else {
       await LoyaltyLogger()
           .logEvent('User $phone NOT found .. creating + points');
@@ -42,11 +41,11 @@ class LoyaltyWebService {
         'StorePoints': 0,
         'RedeemedPoints': 0
       });
-      return '0';
+      return 0;
     }
   }
 
-  Future<FutureOr> getUserPhone(String email) async {
+  Future<String> getUserPhone(String email) async {
     return await get(
       Uri.parse('${LoyaltyConstants.getCustomerUrl}?'
           'searchCriteria[filter_groups][0][filters][0][field]=email'
@@ -56,11 +55,35 @@ class LoyaltyWebService {
         'Authorization': 'Bearer ${LoyaltyConstants.magentoAccessToken}'
         // Accessing accessToken from the Singleton instance
       },
-    ).then(onValue).catchError(onError);
+    ).then((response) {
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData = json.decode(response.body);
+        List items = responseData['items'];
+        if (items.isEmpty) {
+          throw LoyaltyNoAddressException();
+        }
+        List addresses = items[0]['addresses'];
+        if (addresses.isEmpty) {
+          throw LoyaltyNoAddressException();
+        }
+        var telephone = items[0]['addresses'][0]['telephone'];
+        if (telephone == null) {
+          throw LoyaltyNoPhoneException();
+        } else if (telephone.toString().isEmpty) {
+          throw LoyaltyNoPhoneException();
+        } else {
+          return telephone;
+        }
+      } else {
+        throw WebFailureException();
+      }
+    }).catchError((error) {
+      throw error;
+    });
   } //End of UserPhone Call
 
-  Future<FutureOr> updateAddress(id, firstName, lastName, country, city,
-      street1, street2, telephone) async {
+  Future<Null> updateAddress(id, firstName, lastName, country, city, street1,
+      street2, telephone) async {
     return await put(
       Uri.parse(LoyaltyConstants.updateCustomerUrl + id),
       headers: <String, String>{
@@ -98,32 +121,36 @@ class LoyaltyWebService {
     });
   }
 
-  Future<FutureOr> onValue(Response response) async {
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> responseData = json.decode(response.body);
-      List items = responseData['items'];
-      if (items.isEmpty) {
-        throw LoyaltyNoAddressException();
-      }
-      List addresses = items[0]['addresses'];
-      if (addresses.isEmpty) {
-        throw LoyaltyNoAddressException();
-      }
-      var telephone = items[0]['addresses'][0]['telephone'];
-      if (telephone == null) {
-        throw LoyaltyNoPhoneException();
-      } else if (telephone.toString().isEmpty) {
-        throw LoyaltyNoPhoneException();
-      } else {
-        return telephone;
-      }
-    } else {
-      throw WebFailureException();
-    }
-  }
+  Future<void> addVoucher(int points, String customerPhone) async {
+    //get user info
+    var doc = await FirebaseFirestore.instance
+        .collection('LoyaltyUsers')
+        .doc(customerPhone)
+        .get();
 
-  Future<FutureOr> onError(error) async {
-    throw error;
+    //make sure user has enough points
+    if (doc.data()!['StorePoints'] > points) {
+      //get point-to-egp redeem value
+      var remoteConfig = FirebaseRemoteConfig.instance;
+      var cpv = remoteConfig.getDouble('CPV');
+
+      //update points - deduct coupon value
+      await FirebaseFirestore.instance
+          .collection('LoyaltyUsers')
+          .doc(customerPhone)
+          .update({'StorePoints': doc.data()!['StorePoints'] - points});
+      //create the voucher
+      await FirebaseFirestore.instance.collection('Vouchers').add({
+        'CustomerID': customerPhone,
+        'CreatedAt': DateTime.now(),
+        'ExpirationDate':
+            DateTime.now().add(const Duration(days: 30)).toIso8601String(),
+        'Points': points,
+        'Value': points * cpv,
+        'RedeemedAt': '',
+        'RedeemedOn': '',
+      }).then((_) {});
+    }
   }
 
   // Private constructor

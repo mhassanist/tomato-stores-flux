@@ -211,6 +211,7 @@ dependencies:
   in_app_update: ^4.2.2
   flutter_bloc: ^8.1.5
   coupon_uikit: ^0.2.1
+  firebase_remote_config: ^4.2.3
 
 dev_dependencies:
   flutter_lints: ^3.0.1

@@ -28,10 +28,10 @@ class VoucherButton extends StatelessWidget {
             iconPath,
             width: 80.0,
           ),
-          const SizedBox(width: 8.0),
+          const SizedBox(height: 10.0),
           Container(
             padding:
-                const EdgeInsets.symmetric(horizontal: 80.0, vertical: 12.0),
+                const EdgeInsets.symmetric(horizontal: 80.0, vertical: 10.0),
             decoration: BoxDecoration(
               color: enabled
                   ? const Color.fromARGB(255, 155, 34, 39)

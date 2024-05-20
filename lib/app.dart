@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -225,6 +226,12 @@ class AppState extends State<App>
   void initState() {
     LoyaltyLogger().clearLogs();
     LoyaltyLogger().logEvent("Started New Logging");
+
+    FirebaseRemoteConfig.instance.setConfigSettings(RemoteConfigSettings(
+      fetchTimeout: const Duration(minutes: 1),
+      minimumFetchInterval: const Duration(hours: 1),
+    ));
+    FirebaseRemoteConfig.instance.fetchAndActivate();
 
     printLog('[AppState] initState');
     _app = AppModel(widget.languageCode)..setMainSiteConfig();

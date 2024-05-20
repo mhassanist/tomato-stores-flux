@@ -1,12 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coupon_uikit/coupon_uikit.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'add_vocucher.dart';
 
 class VoucherListScreen extends StatelessWidget {
   final CollectionReference _vouchersCollection =
       FirebaseFirestore.instance.collection('Vouchers');
+
+  final userPhone;
+  VoucherListScreen(this.userPhone);
 
   @override
   Widget build(BuildContext context) {
@@ -17,14 +21,16 @@ class VoucherListScreen extends StatelessWidget {
           SizedBox(
             height: 50,
           ),
-          Text(
+          const Text(
             "Vouchers",
             style: TextStyle(
                 color: Colors.red, fontSize: 18, fontWeight: FontWeight.bold),
           ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
-              stream: _vouchersCollection.snapshots(),
+              stream: _vouchersCollection
+                  .orderBy('CreatedAt', descending: false)
+                  .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return Center(child: CircularProgressIndicator());
@@ -44,13 +50,13 @@ class VoucherListScreen extends StatelessWidget {
                           decoration: const BoxDecoration(
                             color: Color.fromARGB(255, 155, 34, 39),
                           ),
-                          child: const Column(
+                          child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Expanded(
                                 child: Center(
                                   child: Text(
-                                    '1000',
+                                    voucher['Value'].toString(),
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 24,
@@ -74,12 +80,12 @@ class VoucherListScreen extends StatelessWidget {
                         secondChild: Container(
                           width: double.maxFinite,
                           padding: const EdgeInsets.all(18),
-                          child: const Column(
+                          child: Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'AQWJHGQWQWQJkjh',
+                                voucher.id.toUpperCase(),
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 13,
@@ -90,7 +96,7 @@ class VoucherListScreen extends StatelessWidget {
                               SizedBox(height: 4),
                               Spacer(),
                               Text(
-                                'Valid Till - 30 Jan 2022',
+                                'Valid Till - ${DateFormat('dd-MM-yyyy').format(DateTime.parse(voucher['ExpirationDate'])).toString()}',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Colors.white,
@@ -194,7 +200,8 @@ class VoucherListScreen extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddVoucherScreen()),
+            MaterialPageRoute(
+                builder: (context) => AddVoucherScreen(userPhone)),
           );
         },
         child: Icon(
