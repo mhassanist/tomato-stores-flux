@@ -5,6 +5,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flux_firebase/index.dart';
 import 'package:http/http.dart';
 
+import 'loyalty_exceptions.dart';
 import 'loyalty_logger.dart';
 
 class LoyaltyConstants {
@@ -121,36 +122,43 @@ class LoyaltyWebService {
     });
   }
 
-  Future<void> addVoucher(int points, String customerPhone) async {
+  Future<void> createVoucher(int points, String customerPhone) async {
     //get user info
     var doc = await FirebaseFirestore.instance
         .collection('LoyaltyUsers')
         .doc(customerPhone)
         .get();
+    var storePoints = doc.data()!['StorePoints'];
 
-    //make sure user has enough points
-    if (doc.data()!['StorePoints'] > points) {
-      //get point-to-egp redeem value
-      var remoteConfig = FirebaseRemoteConfig.instance;
-      var cpv = remoteConfig.getDouble('CPV');
-
-      //update points - deduct coupon value
-      await FirebaseFirestore.instance
-          .collection('LoyaltyUsers')
-          .doc(customerPhone)
-          .update({'StorePoints': doc.data()!['StorePoints'] - points});
-      //create the voucher
-      await FirebaseFirestore.instance.collection('Vouchers').add({
-        'CustomerID': customerPhone,
-        'CreatedAt': DateTime.now(),
-        'ExpirationDate':
-            DateTime.now().add(const Duration(days: 30)).toIso8601String(),
-        'Points': points,
-        'Value': points * cpv,
-        'RedeemedAt': '',
-        'RedeemedOn': '',
-      }).then((_) {});
+    if (storePoints < points) {
+      throw NotEnoughBalanceException();
     }
+
+    //get point-to-egp redeem value
+    var remoteConfig = FirebaseRemoteConfig.instance;
+    var cpv = remoteConfig.getDouble('CPV');
+
+    if (cpv == 0) {
+      throw CouponValueNotFoundException();
+    }
+
+    //update points - deduct coupon value
+    await FirebaseFirestore.instance
+        .collection('LoyaltyUsers')
+        .doc(customerPhone)
+        .update({'StorePoints': storePoints - points});
+
+    //create the voucher
+    await FirebaseFirestore.instance.collection('Vouchers').add({
+      'CustomerID': customerPhone,
+      'CreatedAt': DateTime.now(),
+      'ExpirationDate':
+          DateTime.now().add(const Duration(days: 30)).toIso8601String(),
+      'Points': points,
+      'Value': points * cpv,
+      'RedeemedAt': '',
+      'RedeemedOn': '',
+    }).then((_) {});
   }
 
   // Private constructor
@@ -164,13 +172,3 @@ class LoyaltyWebService {
   // Getter to access the Singleton instance
   static LoyaltyWebService get instance => _instance;
 }
-
-class LoyaltyException implements Exception {}
-
-class LoyaltyNoAddressException extends LoyaltyException {}
-
-class LoyaltyNoPhoneException extends LoyaltyException {}
-
-class WebFailureException extends LoyaltyException {}
-
-class ErrorUpdateAddressException extends LoyaltyException {}

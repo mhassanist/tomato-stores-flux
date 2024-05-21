@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'loyalty_api.dart';
+import 'loyalty_exceptions.dart';
 
 enum UpdateAddressStates {
   initial,

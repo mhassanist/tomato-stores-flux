@@ -8,6 +8,7 @@ import '../../common/tools/navigate_tools.dart';
 import '../../data/boxes.dart';
 import '../../models/index.dart';
 import 'add_address.dart';
+import 'loyalty_appbar.dart';
 import 'loyalty_button.dart';
 import 'loyalty_logger.dart';
 import 'loyalty_provider.dart';
@@ -37,19 +38,13 @@ class LoyaltyPage extends StatelessWidget {
     var loyaltyProvider = Provider.of<LoyaltyModelNotifier>(context);
 
     return Scaffold(
+      appBar: TomatoPointAppBar(),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(18, 40, 18, 0),
-          child: ListView(children: [
-            SizedBox(
-              child: Image.asset(
-                'assets/images/tomato_points_logo.jpg',
-                height: 75,
-              ),
-            ),
-            _buildBody(context, user, loyaltyProvider)
-          ]),
+          padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
+          child:
+              ListView(children: [_buildBody(context, user, loyaltyProvider)]),
         ),
       ),
     );
@@ -57,14 +52,9 @@ class LoyaltyPage extends StatelessWidget {
 
   Widget _buildBody(BuildContext context, UserModel user,
       LoyaltyModelNotifier loyaltyProvider) {
-    LoyaltyLogger().logEvent('Building Body');
-
     if (user.loggedIn) {
-      LoyaltyLogger().logEvent('Logged In');
-
       return _loggedInState(context, loyaltyProvider);
     } else {
-      LoyaltyLogger().logEvent('Not Logged In');
       loyaltyProvider.fetchState = LoyaltyPageStates.initial;
       return _notLoggedInState(context);
     }
@@ -72,24 +62,16 @@ class LoyaltyPage extends StatelessWidget {
 
   Widget _loggedInState(BuildContext context, loyaltyProvider) {
     if (loyaltyProvider.fetchState == LoyaltyPageStates.initial) {
-      LoyaltyLogger()
-          .logEvent('State initial - Building CircularProgressIndicator');
-
       loyaltyProvider.fetchUserPoints(
           UserBox().userInfo!.fullName, UserBox().userInfo!.email!);
       return const Center(
           child: Padding(
               padding: EdgeInsets.all(50), child: CircularProgressIndicator()));
     } else if (loyaltyProvider.fetchState == LoyaltyPageStates.loading) {
-      LoyaltyLogger()
-          .logEvent('State loading - Building CircularProgressIndicator');
-
       return const Center(
           child: Padding(
               padding: EdgeInsets.all(50), child: CircularProgressIndicator()));
     } else if (loyaltyProvider.fetchState == LoyaltyPageStates.fetched) {
-      LoyaltyLogger().logEvent('State fetched - Building MainLoyaltyUI');
-
       return _loyaltyMainUI(context, loyaltyProvider);
     } else {
       return _errorState(context, loyaltyProvider);
@@ -148,13 +130,10 @@ class LoyaltyPage extends StatelessWidget {
       BuildContext context, LoyaltyModelNotifier loyaltyModel) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'Welcome, ${UserBox().userInfo!.firstName!}',
-            style: const TextStyle(
-                color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
-          ),
+        Text(
+          'Welcome, ${UserBox().userInfo!.firstName!}',
+          style: const TextStyle(
+              color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
         ),
         SizedBox(
           height: 100,
@@ -189,7 +168,9 @@ class LoyaltyPage extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => VoucherListScreen(loyaltyModel.userPhone)),
+              MaterialPageRoute(
+                  builder: (context) =>
+                      VoucherListScreen(loyaltyModel.userPhone)),
             );
           },
           iconPath: 'assets/images/voucher_icon.jpeg',

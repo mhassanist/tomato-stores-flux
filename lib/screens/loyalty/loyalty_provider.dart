@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'loyalty_api.dart';
+import 'loyalty_exceptions.dart';
 import 'loyalty_logger.dart';
 
 enum LoyaltyPageStates {
