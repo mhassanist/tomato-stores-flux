@@ -3,6 +3,7 @@ import 'package:coupon_uikit/coupon_uikit.dart';
 import 'package:flutter/material.dart';
 import 'package:fstore/screens/loyalty/voucher_card_screen.dart';
 import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 
 import 'add_voucher.dart';
 import 'loyalty_appbar.dart';
@@ -71,60 +72,52 @@ class VoucherListScreen extends StatelessWidget {
         child: Hero(
           tag: 'hero-voucher-${voucher.id}', // Unique tag for the Hero widget
           child: CouponCard(
-            height: 120,
-            backgroundColor: const Color.fromARGB(220, 155, 34, 39),
+            height: 140,
+            backgroundColor: Color.fromARGB(255, 185, 29, 42),
             curveAxis: Axis.vertical,
+            curveRadius: 25,
+            clockwise: false,
             firstChild: Container(
               decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 155, 34, 39),
+                color: Color.fromARGB(255, 185, 29, 42),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
-                    child: Center(
-                      child: Text(
-                        voucher['Value'].toString(),
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                  SizedBox(
+                    height: 50,
+                    child: SfBarcodeGenerator(
+                      value: '1354654',
+                      symbology: Codabar(),
+                      showValue: false,
+                      barColor: Colors.white,
                     ),
                   ),
-                  Divider(color: Colors.white54, height: 0),
                   Text(
-                    'LE',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                    voucher.id.toString().toUpperCase().substring(0, 8),
+                    style: TextStyle(color: Colors.white),
+                  )
                 ],
               ),
             ),
             secondChild: Container(
               width: double.maxFinite,
-              padding: const EdgeInsets.all(18),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    voucher.id.toUpperCase(),
+                    '${voucher['Value'].toInt()} L.E',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                        fontSize: 48,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        height: 0.9),
                   ),
-                  SizedBox(height: 4),
-                  Spacer(),
+                  Divider(color: Colors.white, height: 12),
                   Text(
-                    'Valid Till - ${DateFormat('dd-MM-yyyy').format(DateTime.parse(voucher['ExpirationDate'])).toString()}',
+                    'VALID TILL:  ${DateFormat('dd-MM-yyyy').format(DateTime.parse(voucher['ExpirationDate'])).toString()}',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
