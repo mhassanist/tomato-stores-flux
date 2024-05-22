@@ -28,7 +28,7 @@ class VoucherDetailScreen extends StatelessWidget {
           ),
         ),
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white70,
       body: Center(
         child: Hero(
           tag: 'hero-voucher-${voucher.id}',
