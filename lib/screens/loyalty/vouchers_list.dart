@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 
 import 'add_voucher.dart';
-import 'loyalty_appbar.dart';
 
 class VoucherListScreen extends StatelessWidget {
   final CollectionReference _vouchersCollection =
@@ -18,7 +17,24 @@ class VoucherListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TomatoPointAppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            // Navigate back to the previous screen by popping the current route
+            Navigator.of(context).pop();
+          },
+        ),
+        title: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Image.asset(
+            'assets/images/tomato_points_logo.jpg',
+            height: 50,
+          ),
+        ),
+      ),
       backgroundColor: Colors.white,
       body: SafeArea(
           child: Padding(

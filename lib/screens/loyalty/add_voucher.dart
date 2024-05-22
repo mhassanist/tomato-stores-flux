@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 
 import 'error_manaer.dart';
 import 'loyalty_api.dart';
-import 'loyalty_appbar.dart';
 import 'styles.dart';
 
 class AddVoucherScreen extends StatefulWidget {
@@ -25,7 +24,24 @@ class _AddVoucherScreenState extends State<AddVoucherScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: TomatoPointAppBar(),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          centerTitle: true,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              // Navigate back to the previous screen by popping the current route
+              Navigator.of(context).pop();
+            },
+          ),
+          title: Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Image.asset(
+              'assets/images/tomato_points_logo.jpg',
+              height: 50,
+            ),
+          ),
+        ),
         backgroundColor: Colors.white,
         body: SafeArea(
           child: Padding(

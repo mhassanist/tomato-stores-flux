@@ -7,6 +7,7 @@ import 'package:http/http.dart';
 
 import 'loyalty_exceptions.dart';
 import 'loyalty_logger.dart';
+import 'vouvher_generator.dart';
 
 class LoyaltyConstants {
   static const String getCustomerUrl =
@@ -148,8 +149,19 @@ class LoyaltyWebService {
         .doc(customerPhone)
         .update({'StorePoints': storePoints - points});
 
+    var voucherIdExists = true;
+    var voucherId = VoucherGenerator.generateRandomCode();
+    while (voucherIdExists) {
+      voucherIdExists = (await FirebaseFirestore.instance
+              .collection('Vouchers')
+              .doc(voucherId)
+              .get())
+          .exists;
+      voucherId = VoucherGenerator.generateRandomCode();
+    }
+
     //create the voucher
-    await FirebaseFirestore.instance.collection('Vouchers').add({
+    await FirebaseFirestore.instance.collection('Vouchers').doc(voucherId).set({
       'CustomerID': customerPhone,
       'CreatedAt': DateTime.now(),
       'ExpirationDate':

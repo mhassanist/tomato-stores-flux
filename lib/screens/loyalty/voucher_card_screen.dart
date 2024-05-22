@@ -10,6 +10,24 @@ class VoucherDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            // Navigate back to the previous screen by popping the current route
+            Navigator.of(context).pop();
+          },
+        ),
+        title: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Image.asset(
+            'assets/images/tomato_points_logo.jpg',
+            height: 50,
+          ),
+        ),
+      ),
       backgroundColor: Colors.black,
       body: Center(
         child: Hero(
