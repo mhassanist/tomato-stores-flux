@@ -26,11 +26,12 @@ class VoucherListScreen extends StatelessWidget {
         child: Expanded(
           child: StreamBuilder<QuerySnapshot>(
             stream: _vouchersCollection
-                .orderBy('CreatedAt', descending: false)
+                .where('CustomerID', isEqualTo: '01127570080')
+                .where('RedeemedAt', isNull: true)
                 .snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
               var vouchers = snapshot.data!.docs;
               return ListView.builder(
@@ -71,6 +72,19 @@ class VoucherListScreen extends StatelessWidget {
         },
         child: Hero(
           tag: 'hero-voucher-${voucher.id}', // Unique tag for the Hero widget
+          flightShuttleBuilder: (
+            BuildContext flightContext,
+            Animation<double> animation,
+            HeroFlightDirection flightDirection,
+            BuildContext fromHeroContext,
+            BuildContext toHeroContext,
+          ) {
+            return SizedBox(
+              width: 100, // adjust size as needed
+              height: 100, // adjust size as needed
+              child: Image.asset('assets/images/voucher_bg.png'),
+            );
+          },
           child: CouponCard(
             height: 140,
             backgroundColor: Color.fromARGB(255, 185, 29, 42),

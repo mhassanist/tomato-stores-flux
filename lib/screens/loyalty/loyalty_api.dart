@@ -156,8 +156,8 @@ class LoyaltyWebService {
           DateTime.now().add(const Duration(days: 30)).toIso8601String(),
       'Points': points,
       'Value': points * cpv,
-      'RedeemedAt': '',
-      'RedeemedOn': '',
+      'RedeemedAt': null,
+      'RedeemedOn': null,
     }).then((_) {});
   }
 
