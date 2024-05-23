@@ -103,7 +103,7 @@ class VoucherListScreen extends StatelessWidget {
           },
           child: CouponCard(
             height: 140,
-            backgroundColor: Color.fromARGB(255, 185, 29, 42),
+            backgroundColor: const Color.fromARGB(255, 185, 29, 42),
             curveAxis: Axis.vertical,
             curveRadius: 25,
             clockwise: false,
@@ -125,7 +125,7 @@ class VoucherListScreen extends StatelessWidget {
                   ),
                   Text(
                     voucher.id.toString().toUpperCase().substring(0, 8),
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                   )
                 ],
               ),
@@ -139,17 +139,17 @@ class VoucherListScreen extends StatelessWidget {
                   Text(
                     '${voucher['Value'].toInt()} L.E',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 48,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                         height: 0.9),
                   ),
-                  Divider(color: Colors.white, height: 12),
+                  const Divider(color: Colors.white, height: 12),
                   Text(
                     'VALID TILL:  ${DateFormat('dd-MM-yyyy').format(DateTime.parse(voucher['ExpirationDate'])).toString()}',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                     ),
                   ),
