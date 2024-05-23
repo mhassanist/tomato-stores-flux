@@ -42,7 +42,7 @@ class VoucherListScreen extends StatelessWidget {
         child: Expanded(
           child: StreamBuilder<QuerySnapshot>(
             stream: _vouchersCollection
-                .where('CustomerID', isEqualTo: '01127570080')
+                .where('CustomerID', isEqualTo: userPhone)
                 .where('RedeemedAt', isNull: true)
                 .snapshots(),
             builder: (context, snapshot) {
