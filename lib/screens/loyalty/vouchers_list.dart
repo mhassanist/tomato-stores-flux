@@ -62,7 +62,7 @@ class VoucherListScreen extends StatelessWidget {
         ),
       )),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromARGB(255, 155, 34, 39),
+        backgroundColor: const Color.fromARGB(255, 24, 24, 24),
         onPressed: () {
           Navigator.push(
             context,
