@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'loyalty_api.dart';
 import 'loyalty_exceptions.dart';
-import 'loyalty_logger.dart';
 
 enum LoyaltyPageStates {
   initial,
@@ -32,11 +31,8 @@ class LoyaltyModelNotifier extends ChangeNotifier {
           .getUserPoints(_userPhone, name, email);
 
       fetchState = LoyaltyPageStates.fetched;
-      LoyaltyLogger().logEvent("State Fetched");
       notifyListeners();
     } catch (exception) {
-      await LoyaltyLogger().logEvent(exception.toString());
-
       if (exception is LoyaltyNoPhoneException) {
         fetchState = LoyaltyPageStates.errorNoPhone;
       } else if (exception is LoyaltyNoAddressException) {

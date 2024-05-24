@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'loyalty_api.dart';
 import 'loyalty_exceptions.dart';
 
-enum UpdateAddressStates {
+enum AddressUpdateStates {
   initial,
   loading,
   success,
@@ -12,8 +12,22 @@ enum UpdateAddressStates {
 }
 
 class AddressUpdateNotifier extends ChangeNotifier {
-  UpdateAddressStates updateState =
-      UpdateAddressStates.initial; // Initial state for address update
+  AddressUpdateStates updateState = AddressUpdateStates.initial;
+
+  bool _disposed = false; // Initial state for address update
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
+
+  @override
+  void notifyListeners() {
+    if (!_disposed) {
+      super.notifyListeners();
+    }
+  }
 
   // Method to update user address and manage state changes
   Future<void> updateAddress(
@@ -26,19 +40,21 @@ class AddressUpdateNotifier extends ChangeNotifier {
       String street2,
       String telephone) async {
     try {
-      updateState = UpdateAddressStates.loading;
+      updateState = AddressUpdateStates.loading;
       notifyListeners();
+
       await LoyaltyWebService.instance.updateAddress(
           id, firstName, lastName, country, city, street1, street2, telephone);
-      updateState = UpdateAddressStates.success;
+
+      updateState = AddressUpdateStates.success;
     } catch (exception) {
       if (exception is WebFailureException) {
-        updateState = UpdateAddressStates.errorWebAccess;
+        updateState = AddressUpdateStates.errorWebAccess;
       } else if (exception is ErrorUpdateAddressException) {
-        updateState = UpdateAddressStates.errorUpdateAddress;
+        updateState = AddressUpdateStates.errorUpdateAddress;
       } else {
         updateState =
-            UpdateAddressStates.errorUpdateAddress; // General error state
+            AddressUpdateStates.errorUpdateAddress; // General error state
       }
     } finally {
       notifyListeners();

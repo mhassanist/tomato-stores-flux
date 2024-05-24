@@ -10,21 +10,9 @@ import '../../models/index.dart';
 import 'add_address.dart';
 import 'loyalty_appbar.dart';
 import 'loyalty_button.dart';
-import 'loyalty_logger.dart';
 import 'loyalty_provider.dart';
 import 'store_points_widget.dart';
 import 'vouchers_list.dart';
-
-/// [done] if not logged in, direct to login page
-/// [done] if logged in, check if has address or not. If has, show phone number
-/// [done] if no address direct to add address screen
-///
-/// [done] connect to firebase and get points of the user
-/// [done] if not, generate barcode = phone number and save it LoyaltyUsers collection
-/// show barcode and loyalty points : INVNet
-/// firestore cloud function to update user's loyalty points after each new invoice added
-///  --
-/// show store bill history
 
 class LoyaltyPage extends StatelessWidget {
   LoyaltyPage({super.key});
@@ -44,6 +32,7 @@ class LoyaltyPage extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
           child:
+              //Listview to enable auto scrolling in small screens
               ListView(children: [_buildBody(context, user, loyaltyProvider)]),
         ),
       ),
@@ -53,15 +42,16 @@ class LoyaltyPage extends StatelessWidget {
   Widget _buildBody(BuildContext context, UserModel user,
       LoyaltyModelNotifier loyaltyProvider) {
     if (user.loggedIn) {
-      return _loggedInState(context, loyaltyProvider);
+      return buildLoyaltyStatesUI(context, loyaltyProvider);
     } else {
       loyaltyProvider.fetchState = LoyaltyPageStates.initial;
-      return _notLoggedInState(context);
+      return buildLoginRequestUI(context);
     }
   }
 
-  Widget _loggedInState(BuildContext context, loyaltyProvider) {
+  Widget buildLoyaltyStatesUI(BuildContext context, loyaltyProvider) {
     if (loyaltyProvider.fetchState == LoyaltyPageStates.initial) {
+      //get user points
       loyaltyProvider.fetchUserPoints(
           UserBox().userInfo!.fullName, UserBox().userInfo!.email!);
       return const Center(
@@ -72,15 +62,13 @@ class LoyaltyPage extends StatelessWidget {
           child: Padding(
               padding: EdgeInsets.all(50), child: CircularProgressIndicator()));
     } else if (loyaltyProvider.fetchState == LoyaltyPageStates.fetched) {
-      return _loyaltyMainUI(context, loyaltyProvider);
+      return buildLoyaltyPointsUI(context, loyaltyProvider);
     } else {
-      return _errorState(context, loyaltyProvider);
+      return buildAddressNotFoundUI(context, loyaltyProvider);
     }
   }
 
-  Widget _notLoggedInState(BuildContext context) {
-    LoyaltyLogger().logEvent('Building not logged in UI');
-
+  Widget buildLoginRequestUI(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: ElevatedButton(
@@ -95,7 +83,7 @@ class LoyaltyPage extends StatelessWidget {
     );
   }
 
-  Widget _errorState(
+  Widget buildAddressNotFoundUI(
       BuildContext context, LoyaltyModelNotifier loyaltyProvider) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -126,10 +114,31 @@ class LoyaltyPage extends StatelessWidget {
     );
   }
 
-  Widget _loyaltyMainUI(
+  Widget buildLoyaltyPointsUI(
       BuildContext context, LoyaltyModelNotifier loyaltyModel) {
     return Column(
       children: [
+        // VoucherButton(
+        //   enabled: true,
+        //   text: 'Create bills',
+        //   onPressed: () async {
+        //     var sum = 0;
+        //     var rng = Random();
+        //     var list = [];
+        //     for (var i = 0; i < 170; i++) {
+        //       var n = rng.nextInt(34587364);
+        //       list.add(n);
+        //       sum += n;
+        //     }
+        //     print(sum);
+        //     for (var i = 0; i < list.length; i++) {
+        //       var invNet = list[i];
+        //       FirebaseFirestore.instance.collection("TomatoInvoices").add(
+        //           {'INVCustomerID': loyaltyModel.userPhone, 'INVNet': invNet});
+        //     }
+        //   },
+        //   iconPath: 'assets/images/invoices_icon.jpeg',
+        // ),
         Text(
           'Welcome, ${UserBox().userInfo!.firstName!}',
           style: const TextStyle(
