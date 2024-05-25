@@ -963,6 +963,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("تم تطبيق نقطة الخصم بنجاح"),
         "pointRewardMessage": MessageLookupByLibrary.simpleMessage(
             "هناك تخفيض يمكنك تطبيقه من نقاطك على قفتك"),
+        "pointsMustBeMoreThan10":
+            MessageLookupByLibrary.simpleMessage("أقل قيمة لعدد النقاط هي ١٠"),
         "polish": MessageLookupByLibrary.simpleMessage("بولندية"),
         "popular": MessageLookupByLibrary.simpleMessage("متميز"),
         "popularity": MessageLookupByLibrary.simpleMessage("الشعبية"),

@@ -190,3 +190,6 @@ println "🔧 Copying configs/customized to project..."
 println "\n🪄  Building " + envProperties['appName'] + "... 🪄\n"
 println "\n🔑 Signing with keystore " + envProperties['storeFile'] + "... 🔑\n"
 preBuild.dependsOn(copyConfigFiles)
+
+
+apply plugin: 'com.google.firebase.crashlytics'

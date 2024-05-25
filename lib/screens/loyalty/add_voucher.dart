@@ -100,6 +100,12 @@ class _AddVoucherScreenState extends State<AddVoucherScreen> {
                 });
                 return;
               }
+              if (int.parse(_pointsController.text) < 10) {
+                setState(() {
+                  errorMessage = S.of(context).pointsMustBeMoreThan10;
+                  state = ScreenState.failure;
+                });
+              }
               setState(() {
                 state = ScreenState.loading;
               });

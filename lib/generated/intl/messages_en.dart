@@ -971,6 +971,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Discount point is applied successfully"),
         "pointRewardMessage": MessageLookupByLibrary.simpleMessage(
             "There is the Discount Rule for applying your points to Cart"),
+        "pointsMustBeMoreThan10": MessageLookupByLibrary.simpleMessage(
+            "Points can\'t be less than 10"),
         "polish": MessageLookupByLibrary.simpleMessage("Polish"),
         "popular": MessageLookupByLibrary.simpleMessage("Popular"),
         "popularity": MessageLookupByLibrary.simpleMessage("Popularity"),
