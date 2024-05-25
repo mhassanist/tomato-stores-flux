@@ -40,29 +40,27 @@ class VoucherListScreen extends StatelessWidget {
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
-        child: Expanded(
-          child: StreamBuilder<QuerySnapshot>(
-            stream: _vouchersCollection
-                .where('CustomerID', isEqualTo: userPhone)
-                .where('RedeemedAt', isNull: true)
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Center(child: Text(snapshot.error.toString()));
-              }
-              if (!snapshot.hasData) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              var vouchers = snapshot.data!.docs;
-              return ListView.builder(
-                itemCount: vouchers.length,
-                itemBuilder: (context, index) {
-                  var voucher = vouchers[index];
-                  return buildVoucherListItem(context, voucher);
-                },
-              );
-            },
-          ),
+        child: StreamBuilder<QuerySnapshot>(
+          stream: _vouchersCollection
+              .where('CustomerID', isEqualTo: userPhone)
+              .where('RedeemedAt', isNull: true)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Center(child: Text(snapshot.error.toString()));
+            }
+            if (!snapshot.hasData) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            var vouchers = snapshot.data!.docs;
+            return ListView.builder(
+              itemCount: vouchers.length,
+              itemBuilder: (context, index) {
+                var voucher = vouchers[index];
+                return buildVoucherListItem(context, voucher);
+              },
+            );
+          },
         ),
       )),
       floatingActionButton: FloatingActionButton(
