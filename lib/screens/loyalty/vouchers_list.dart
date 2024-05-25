@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coupon_uikit/coupon_uikit.dart';
 import 'package:flutter/material.dart';
-import 'package:fstore/screens/loyalty/voucher_card_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 
 import 'add_voucher.dart';
+import 'voucher_card_screen.dart';
 
 class VoucherListScreen extends StatelessWidget {
   final CollectionReference _vouchersCollection =
@@ -46,6 +46,9 @@ class VoucherListScreen extends StatelessWidget {
                 .where('RedeemedAt', isNull: true)
                 .snapshots(),
             builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Center(child: Text(snapshot.error.toString()));
+              }
               if (!snapshot.hasData) {
                 return const Center(child: CircularProgressIndicator());
               }
@@ -117,7 +120,7 @@ class VoucherListScreen extends StatelessWidget {
                   SizedBox(
                     height: 50,
                     child: SfBarcodeGenerator(
-                      value: '1354654',
+                      value: voucher.id.toString().substring(0, 6),
                       symbology: Codabar(),
                       showValue: false,
                       barColor: Colors.white,
@@ -130,7 +133,7 @@ class VoucherListScreen extends StatelessWidget {
                 ],
               ),
             ),
-            secondChild: Container(
+            secondChild: SizedBox(
               width: double.maxFinite,
               child: Column(
                 mainAxisSize: MainAxisSize.min,

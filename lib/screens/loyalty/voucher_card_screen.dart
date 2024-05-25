@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flux_firebase/index.dart';
 import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 
 class VoucherDetailScreen extends StatelessWidget {
@@ -60,12 +59,12 @@ class RoundedImageBackground extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(5.0),
         child: InkWell(
-          onDoubleTap: () {
-            FirebaseFirestore.instance
-                .collection('Vouchers')
-                .doc(voucher.id)
-                .update({'RedeemedAt': DateTime.now()});
-          },
+          // onDoubleTap: () {
+          //   FirebaseFirestore.instance
+          //       .collection('Vouchers')
+          //       .doc(voucher.id)
+          //       .update({'RedeemedAt': DateTime.now()});
+          // },
           child: Stack(
             children: <Widget>[
               // Rotated image on the left
