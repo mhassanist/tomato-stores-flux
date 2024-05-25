@@ -112,7 +112,7 @@ class RoundedImageBackground extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                        padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                         child: Text('${voucher['Value'].toInt()} L.E',
                             style: const TextStyle(
                                 color: Colors.white,

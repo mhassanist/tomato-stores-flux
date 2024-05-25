@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 
 class VoucherButton extends StatelessWidget {
   final String iconPath;
-  final String text;
+  String text;
   final VoidCallback onPressed;
   final enabled;
 
-  const VoucherButton({
+  VoucherButton({
     super.key,
     required this.iconPath,
     required this.onPressed,

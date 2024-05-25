@@ -1,5 +1,30 @@
 {
 	"@@locale": "ar",
+	"loyaltyTitle": "نقاطك",
+	"addPhoneNumber": "أضف رقم هاتفك",
+	"storePoints": "نقاطك",
+	"vouchers": "الكوبونات",
+	"invoices": "الفواتير",
+	"validTill" : "متاح حتى",
+	"pointCount" : "عدد النقاط",
+	"createVoucher" : "إنشاء كوبون",
+	"succeededClosing" : "تم بنجاح .. جاري الإغلاق",
+	"failedToAccessStoreService": "فشل الإتصال بخدمة التخزين",
+	"failedToUpdateUserAddress": "فشل تحديث عنوان المستخدم",
+	"addAddress" : "أضف عنوان",
+	"phoneMustBe11Digits":"رقم الهاتف يجب أن يكون ١١ خانة و يبدأ ب ٠١",
+
+	"NotEnoughBalanceException": "رصيدك غير كافي",
+	"CouponValueNotFoundException":
+	"قيمة تحويل النقاط لكوبون غير موجودة. تواصل مع مدير النظام",
+	"LoyaltyNoAddressException": "لا يوجد عنوان لك. أضف عنوان جديد",
+	"LoyaltyNoPhoneException":
+	"لا يوجد رقم هاتف. من فضلط أضف رقم هاتف جديد",
+	"WebFailureException": "تعذر الإتصال بخدمة الويب",
+	"ErrorUpdateAddressException":
+	"خطأ أثناء تحديث العنوان. حاول مرة اخرى",
+	"UnknownError": "خطأ غير محدد",
+
 	"seeAll": "اظهار الكل",
 	"featureProducts": "منتجات مميزة",
 	"bagsCollections": "مجموعات الحقائب",

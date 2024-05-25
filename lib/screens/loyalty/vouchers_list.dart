@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 
+import '../../generated/l10n.dart';
 import 'add_voucher.dart';
 import 'voucher_card_screen.dart';
 
@@ -150,7 +151,7 @@ class VoucherListScreen extends StatelessWidget {
                   ),
                   const Divider(color: Colors.white, height: 12),
                   Text(
-                    'VALID TILL:  ${DateFormat('dd-MM-yyyy').format(DateTime.parse(voucher['ExpirationDate'])).toString()}',
+                    '${S.of(context).validTill}  ${DateFormat('dd-MM-yyyy').format(DateTime.parse(voucher['ExpirationDate'])).toString()}',
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Colors.white,

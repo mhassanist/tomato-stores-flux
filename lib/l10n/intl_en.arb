@@ -1,5 +1,31 @@
 {
 	"@@locale": "en",
+	"loyaltyTitle": "Loyalty",
+	"addPhoneNumber": "Add Phone Number",
+	"storePoints": "Store Points",
+	"vouchers": "Vouchers",
+	"invoices": "Invoices",
+	"validTill" : "Valid Till",
+	"pointCount" : "points",
+	"createVoucher" : "Create Voucher",
+	"succeededClosing" : "Success! Closing...",
+	"failedToAccessStoreService": "Failed to access store services",
+	"failedToUpdateUserAddress": "Failed to update user\\'s address",
+
+	"NotEnoughBalanceException": "Not Enough Balance",
+	"CouponValueNotFoundException":
+	"Coupon Value Not Found. Check System Configurations",
+	"LoyaltyNoAddressException": "No Address Found. Please Update Your Address",
+	"LoyaltyNoPhoneException":
+	"No Phone Number Found. Please Update Your Phone Number",
+	"WebFailureException": "Web Service Failure. Please Try Again Later",
+	"ErrorUpdateAddressException":
+	"Error Updating Address. Please Contact Support",
+	"UnknownError": "Unknown Error",
+
+
+	"addAddress" : "Add Address",
+	"phoneMustBe11Digits":"Phone number must be 11 digits and start with 01",
 	"seeAll": "See All",
 	"featureProducts": "Feature Products",
 	"bagsCollections": "Gears Collections",

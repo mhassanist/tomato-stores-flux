@@ -114,6 +114,19 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "CouponValueNotFoundException": MessageLookupByLibrary.simpleMessage(
+            "قيمة تحويل النقاط لكوبون غير موجودة. تواصل مع مدير النظام"),
+        "ErrorUpdateAddressException": MessageLookupByLibrary.simpleMessage(
+            "خطأ أثناء تحديث العنوان. حاول مرة اخرى"),
+        "LoyaltyNoAddressException": MessageLookupByLibrary.simpleMessage(
+            "لا يوجد عنوان لك. أضف عنوان جديد"),
+        "LoyaltyNoPhoneException": MessageLookupByLibrary.simpleMessage(
+            "لا يوجد رقم هاتف. من فضلط أضف رقم هاتف جديد"),
+        "NotEnoughBalanceException":
+            MessageLookupByLibrary.simpleMessage("رصيدك غير كافي"),
+        "UnknownError": MessageLookupByLibrary.simpleMessage("خطأ غير محدد"),
+        "WebFailureException":
+            MessageLookupByLibrary.simpleMessage("تعذر الإتصال بخدمة الويب"),
         "aboutUs": MessageLookupByLibrary.simpleMessage("عن الجوال شوب"),
         "account": MessageLookupByLibrary.simpleMessage("الحساب"),
         "accountDeleteDescription": MessageLookupByLibrary.simpleMessage(
@@ -130,11 +143,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "addAName": MessageLookupByLibrary.simpleMessage("أضف اسماً"),
         "addANewPost": MessageLookupByLibrary.simpleMessage("أضف منشور جديد"),
         "addASlug": MessageLookupByLibrary.simpleMessage("أضف صلاق"),
+        "addAddress": MessageLookupByLibrary.simpleMessage("أضف عنوان"),
         "addAnAttr": MessageLookupByLibrary.simpleMessage("أضف سمة"),
         "addListing": MessageLookupByLibrary.simpleMessage("إضافة قائمة"),
         "addNew": MessageLookupByLibrary.simpleMessage("اضف جديد"),
         "addNewBlog": MessageLookupByLibrary.simpleMessage("أضف مدونة جديدة"),
         "addNewPost": MessageLookupByLibrary.simpleMessage("إنشاء منشور جديد"),
+        "addPhoneNumber": MessageLookupByLibrary.simpleMessage("أضف رقم هاتفك"),
         "addProduct": MessageLookupByLibrary.simpleMessage("أضف منتج"),
         "addToCart": MessageLookupByLibrary.simpleMessage("أضف إلى السلة"),
         "addToCartMaximum":
@@ -370,6 +385,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "createProduct": MessageLookupByLibrary.simpleMessage("إضافة منتج"),
         "createVariants":
             MessageLookupByLibrary.simpleMessage("إنشاء جميع التخصيصات"),
+        "createVoucher": MessageLookupByLibrary.simpleMessage("إنشاء كوبون"),
         "createdOn": MessageLookupByLibrary.simpleMessage("تم إنشاؤها على:"),
         "currencies": MessageLookupByLibrary.simpleMessage("العملات"),
         "currencyIsNotSupported": m7,
@@ -515,12 +531,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "extraServices": MessageLookupByLibrary.simpleMessage("خدمات إضافية"),
         "failToAssign":
             MessageLookupByLibrary.simpleMessage("فشل تعيين المستخدم"),
+        "failedToAccessStoreService":
+            MessageLookupByLibrary.simpleMessage("فشل الإتصال بخدمة التخزين"),
         "failedToGenerateLink":
             MessageLookupByLibrary.simpleMessage("فشل إنشاء الارتباط"),
         "failedToLoadAppConfig": MessageLookupByLibrary.simpleMessage(
             "فشل تحميل التطبيق. يرجى إعادة تشغيل التطبيق."),
         "failedToLoadImage":
             MessageLookupByLibrary.simpleMessage("فشل تحميل الصورة"),
+        "failedToUpdateUserAddress":
+            MessageLookupByLibrary.simpleMessage("فشل تحديث عنوان المستخدم"),
         "favorite": MessageLookupByLibrary.simpleMessage("مفضل"),
         "featureNotAvailable":
             MessageLookupByLibrary.simpleMessage("الميزة غير متوفرة"),
@@ -619,6 +639,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "invalidYearOfBirth":
             MessageLookupByLibrary.simpleMessage("سنة الميلاد غير صحيحة"),
         "invoice": MessageLookupByLibrary.simpleMessage("فاتورة"),
+        "invoices": MessageLookupByLibrary.simpleMessage("الفواتير"),
         "isEverythingSet":
             MessageLookupByLibrary.simpleMessage("هل كل شيء مُعد؟"),
         "isTyping": MessageLookupByLibrary.simpleMessage("يكتب..."),
@@ -678,6 +699,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "loginToYourAccount":
             MessageLookupByLibrary.simpleMessage("تسجيل الدخول إلى حسابك"),
         "logout": MessageLookupByLibrary.simpleMessage("خروج"),
+        "loyaltyTitle": MessageLookupByLibrary.simpleMessage("نقاطك"),
         "malay": MessageLookupByLibrary.simpleMessage("لغة الملايو"),
         "manCollections": MessageLookupByLibrary.simpleMessage("مجموعات الرجل"),
         "manageApiKey": MessageLookupByLibrary.simpleMessage("إدارة مفتاح API"),
@@ -875,6 +897,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("التنسيق: +213-000-00-00-00"),
         "phoneIsRequired":
             MessageLookupByLibrary.simpleMessage("خانة رقم الهاتف مطلوبة"),
+        "phoneMustBe11Digits": MessageLookupByLibrary.simpleMessage(
+            "رقم الهاتف يجب أن يكون ١١ خانة و يبدأ ب ٠١"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
         "phoneNumberVerification":
             MessageLookupByLibrary.simpleMessage("رمز تأكيد الرقم"),
@@ -920,6 +944,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "pleasefillUpAllCellsProperly": MessageLookupByLibrary.simpleMessage(
             "*يرجى ملء جميع الخانات بشكل صحيح"),
         "point": MessageLookupByLibrary.simpleMessage("نقطة"),
+        "pointCount": MessageLookupByLibrary.simpleMessage("عدد النقاط"),
         "pointMsgConfigNotFound": MessageLookupByLibrary.simpleMessage(
             "لم يتم العثور على اعدادات نقاط خصم في الخادم"),
         "pointMsgEnter":
@@ -1204,6 +1229,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "storeLogo": MessageLookupByLibrary.simpleMessage("شعار المتجر"),
         "storeMobileBanner":
             MessageLookupByLibrary.simpleMessage("لافتة الموبايل للمتجر"),
+        "storePoints": MessageLookupByLibrary.simpleMessage("نقاطك"),
         "storeSettings": MessageLookupByLibrary.simpleMessage("إعدادات المتجر"),
         "storeSliderBanner":
             MessageLookupByLibrary.simpleMessage("لافتة شريط التمرير للمتجر"),
@@ -1221,6 +1247,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "submit": MessageLookupByLibrary.simpleMessage("أرسال"),
         "submitYourPost": MessageLookupByLibrary.simpleMessage("أرسل رسالتك"),
         "subtotal": MessageLookupByLibrary.simpleMessage("المجموع"),
+        "succeededClosing":
+            MessageLookupByLibrary.simpleMessage("تم بنجاح .. جاري الإغلاق"),
         "support": MessageLookupByLibrary.simpleMessage("الدعم"),
         "swahili": MessageLookupByLibrary.simpleMessage("السواحيلية"),
         "swedish": MessageLookupByLibrary.simpleMessage("اللغة السويدية"),
@@ -1320,6 +1348,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "vacationMessage":
             MessageLookupByLibrary.simpleMessage("رسالة الإجازة"),
         "vacationType": MessageLookupByLibrary.simpleMessage("نوع الاجازة"),
+        "validTill": MessageLookupByLibrary.simpleMessage("متاح حتى"),
         "validUntilDate": m35,
         "variable": MessageLookupByLibrary.simpleMessage("متعدد"),
         "variation": MessageLookupByLibrary.simpleMessage("التخصيص"),
@@ -1338,6 +1367,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("عرض المعاملات الأخيرة"),
         "visible": MessageLookupByLibrary.simpleMessage("مرئي"),
         "visitStore": MessageLookupByLibrary.simpleMessage("زيارة المتجر"),
+        "vouchers": MessageLookupByLibrary.simpleMessage("الكوبونات"),
         "waitForLoad":
             MessageLookupByLibrary.simpleMessage("في انتظار تحميل الصورة"),
         "waitForPost": MessageLookupByLibrary.simpleMessage("في انتظار المنتج"),

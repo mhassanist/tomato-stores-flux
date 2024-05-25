@@ -115,6 +115,19 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "CouponValueNotFoundException": MessageLookupByLibrary.simpleMessage(
+            "Coupon Value Not Found. Check System Configurations"),
+        "ErrorUpdateAddressException": MessageLookupByLibrary.simpleMessage(
+            "Error Updating Address. Please Contact Support"),
+        "LoyaltyNoAddressException": MessageLookupByLibrary.simpleMessage(
+            "No Address Found. Please Update Your Address"),
+        "LoyaltyNoPhoneException": MessageLookupByLibrary.simpleMessage(
+            "No Phone Number Found. Please Update Your Phone Number"),
+        "NotEnoughBalanceException":
+            MessageLookupByLibrary.simpleMessage("Not Enough Balance"),
+        "UnknownError": MessageLookupByLibrary.simpleMessage("Unknown Error"),
+        "WebFailureException": MessageLookupByLibrary.simpleMessage(
+            "Web Service Failure. Please Try Again Later"),
         "aboutUs": MessageLookupByLibrary.simpleMessage("About Us"),
         "account": MessageLookupByLibrary.simpleMessage("Account"),
         "accountDeleteDescription": MessageLookupByLibrary.simpleMessage(
@@ -131,11 +144,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "addAName": MessageLookupByLibrary.simpleMessage("Add a name"),
         "addANewPost": MessageLookupByLibrary.simpleMessage("Add A New Post"),
         "addASlug": MessageLookupByLibrary.simpleMessage("Add a slug"),
+        "addAddress": MessageLookupByLibrary.simpleMessage("Add Address"),
         "addAnAttr": MessageLookupByLibrary.simpleMessage("Add an attribute"),
         "addListing": MessageLookupByLibrary.simpleMessage("Add Listing"),
         "addNew": MessageLookupByLibrary.simpleMessage("Add new"),
         "addNewBlog": MessageLookupByLibrary.simpleMessage("Add New Blog"),
         "addNewPost": MessageLookupByLibrary.simpleMessage("Create New Post"),
+        "addPhoneNumber":
+            MessageLookupByLibrary.simpleMessage("Add Phone Number"),
         "addProduct": MessageLookupByLibrary.simpleMessage("Add Product"),
         "addToCart": MessageLookupByLibrary.simpleMessage("Add To Cart "),
         "addToCartMaximum": MessageLookupByLibrary.simpleMessage(
@@ -375,6 +391,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "createProduct": MessageLookupByLibrary.simpleMessage("Create Product"),
         "createVariants":
             MessageLookupByLibrary.simpleMessage("Create all variants"),
+        "createVoucher": MessageLookupByLibrary.simpleMessage("Create Voucher"),
         "createdOn": MessageLookupByLibrary.simpleMessage("Created on: "),
         "currencies": MessageLookupByLibrary.simpleMessage("Currencies"),
         "currencyIsNotSupported": m7,
@@ -526,12 +543,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "extraServices": MessageLookupByLibrary.simpleMessage("Extra Services"),
         "failToAssign":
             MessageLookupByLibrary.simpleMessage("Failed to assign User"),
+        "failedToAccessStoreService": MessageLookupByLibrary.simpleMessage(
+            "Failed to access store services"),
         "failedToGenerateLink":
             MessageLookupByLibrary.simpleMessage("Failed to generate link"),
         "failedToLoadAppConfig": MessageLookupByLibrary.simpleMessage(
             "Failed to load application configuration. Please try again or restart your application."),
         "failedToLoadImage":
             MessageLookupByLibrary.simpleMessage("Failed to load image"),
+        "failedToUpdateUserAddress": MessageLookupByLibrary.simpleMessage(
+            "Failed to update user\\\'s address"),
         "favorite": MessageLookupByLibrary.simpleMessage("Favorite"),
         "featureNotAvailable":
             MessageLookupByLibrary.simpleMessage("Feature not available"),
@@ -628,6 +649,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "invalidYearOfBirth":
             MessageLookupByLibrary.simpleMessage("Invalid Year of Birth"),
         "invoice": MessageLookupByLibrary.simpleMessage("Invoice"),
+        "invoices": MessageLookupByLibrary.simpleMessage("Invoices"),
         "isEverythingSet":
             MessageLookupByLibrary.simpleMessage("Is everything set...?"),
         "isTyping": MessageLookupByLibrary.simpleMessage("is typing..."),
@@ -687,6 +709,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "loginToYourAccount":
             MessageLookupByLibrary.simpleMessage("Login to your account"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
+        "loyaltyTitle": MessageLookupByLibrary.simpleMessage("Loyalty"),
         "malay": MessageLookupByLibrary.simpleMessage("Malay"),
         "manCollections":
             MessageLookupByLibrary.simpleMessage("Man Collections"),
@@ -882,6 +905,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Format: +84123456789"),
         "phoneIsRequired": MessageLookupByLibrary.simpleMessage(
             "The phone number field is required"),
+        "phoneMustBe11Digits": MessageLookupByLibrary.simpleMessage(
+            "Phone number must be 11 digits and start with 01"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone number"),
         "phoneNumberVerification":
             MessageLookupByLibrary.simpleMessage("Phone Number Verification"),
@@ -926,6 +951,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "pleasefillUpAllCellsProperly": MessageLookupByLibrary.simpleMessage(
             "*Please fill up all the cells properly"),
         "point": MessageLookupByLibrary.simpleMessage("Point"),
+        "pointCount": MessageLookupByLibrary.simpleMessage("points"),
         "pointMsgConfigNotFound": MessageLookupByLibrary.simpleMessage(
             "There is no discount point configuration has been found in server"),
         "pointMsgEnter":
@@ -1223,6 +1249,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "storeLogo": MessageLookupByLibrary.simpleMessage("Store Logo"),
         "storeMobileBanner":
             MessageLookupByLibrary.simpleMessage("Store Mobile Banner"),
+        "storePoints": MessageLookupByLibrary.simpleMessage("Store Points"),
         "storeSettings": MessageLookupByLibrary.simpleMessage("Store Settings"),
         "storeSliderBanner":
             MessageLookupByLibrary.simpleMessage("Store Slider Banner"),
@@ -1242,6 +1269,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "submitYourPost":
             MessageLookupByLibrary.simpleMessage("Submit Your Post"),
         "subtotal": MessageLookupByLibrary.simpleMessage("Subtotal"),
+        "succeededClosing":
+            MessageLookupByLibrary.simpleMessage("Success! Closing..."),
         "support": MessageLookupByLibrary.simpleMessage("Support"),
         "swahili": MessageLookupByLibrary.simpleMessage("Swahili"),
         "swedish": MessageLookupByLibrary.simpleMessage("Swedish"),
@@ -1345,6 +1374,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "vacationMessage":
             MessageLookupByLibrary.simpleMessage("Vacation Message"),
         "vacationType": MessageLookupByLibrary.simpleMessage("Vacation type"),
+        "validTill": MessageLookupByLibrary.simpleMessage("Valid Till"),
         "validUntilDate": m35,
         "variable": MessageLookupByLibrary.simpleMessage("Variable"),
         "variation": MessageLookupByLibrary.simpleMessage("Variation"),
@@ -1363,6 +1393,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("View recent transactions"),
         "visible": MessageLookupByLibrary.simpleMessage("Visible"),
         "visitStore": MessageLookupByLibrary.simpleMessage("Visit Store"),
+        "vouchers": MessageLookupByLibrary.simpleMessage("Vouchers"),
         "waitForLoad":
             MessageLookupByLibrary.simpleMessage("Waiting for loading image"),
         "waitForPost":

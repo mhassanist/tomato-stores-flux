@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../generated/l10n.dart';
 import 'error_manaer.dart';
 import 'loyalty_api.dart';
 import 'styles.dart';
@@ -59,7 +60,7 @@ class _AddVoucherScreenState extends State<AddVoucherScreen> {
             Navigator.of(context).pop();
           }
         });
-        return const Center(child: Text('Success! Closing...'));
+        return Center(child: Text(S.of(context).succeededClosing));
       case ScreenState.initial:
         return buildVoucherUI();
       case ScreenState.loading:
@@ -79,8 +80,8 @@ class _AddVoucherScreenState extends State<AddVoucherScreen> {
           controller: _pointsController,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           keyboardType: TextInputType.number,
-          decoration: const InputDecoration(
-            labelText: 'Points',
+          decoration: InputDecoration(
+            labelText: S.of(context).pointCount,
             border: OutlineInputBorder(),
           ),
         ),
@@ -112,11 +113,14 @@ class _AddVoucherScreenState extends State<AddVoucherScreen> {
             } on Exception catch (ex) {
               setState(() {
                 state = ScreenState.failure;
-                errorMessage = ErrorManager.mapExceptionToErrorMessage(ex);
+                errorMessage =
+                    ErrorManager.mapExceptionToErrorMessage(context, ex);
               });
             }
           },
-          child: Text('Create Voucher'),
+          child: Text(
+            S.of(context).createVoucher,
+          ),
         ),
       ],
     );

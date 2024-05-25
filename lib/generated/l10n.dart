@@ -50,6 +50,206 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Loyalty`
+  String get loyaltyTitle {
+    return Intl.message(
+      'Loyalty',
+      name: 'loyaltyTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Phone Number`
+  String get addPhoneNumber {
+    return Intl.message(
+      'Add Phone Number',
+      name: 'addPhoneNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Store Points`
+  String get storePoints {
+    return Intl.message(
+      'Store Points',
+      name: 'storePoints',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vouchers`
+  String get vouchers {
+    return Intl.message(
+      'Vouchers',
+      name: 'vouchers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invoices`
+  String get invoices {
+    return Intl.message(
+      'Invoices',
+      name: 'invoices',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Valid Till`
+  String get validTill {
+    return Intl.message(
+      'Valid Till',
+      name: 'validTill',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `points`
+  String get pointCount {
+    return Intl.message(
+      'points',
+      name: 'pointCount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create Voucher`
+  String get createVoucher {
+    return Intl.message(
+      'Create Voucher',
+      name: 'createVoucher',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success! Closing...`
+  String get succeededClosing {
+    return Intl.message(
+      'Success! Closing...',
+      name: 'succeededClosing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to access store services`
+  String get failedToAccessStoreService {
+    return Intl.message(
+      'Failed to access store services',
+      name: 'failedToAccessStoreService',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to update user\'s address`
+  String get failedToUpdateUserAddress {
+    return Intl.message(
+      'Failed to update user\\\'s address',
+      name: 'failedToUpdateUserAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not Enough Balance`
+  String get NotEnoughBalanceException {
+    return Intl.message(
+      'Not Enough Balance',
+      name: 'NotEnoughBalanceException',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Coupon Value Not Found. Check System Configurations`
+  String get CouponValueNotFoundException {
+    return Intl.message(
+      'Coupon Value Not Found. Check System Configurations',
+      name: 'CouponValueNotFoundException',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Address Found. Please Update Your Address`
+  String get LoyaltyNoAddressException {
+    return Intl.message(
+      'No Address Found. Please Update Your Address',
+      name: 'LoyaltyNoAddressException',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Phone Number Found. Please Update Your Phone Number`
+  String get LoyaltyNoPhoneException {
+    return Intl.message(
+      'No Phone Number Found. Please Update Your Phone Number',
+      name: 'LoyaltyNoPhoneException',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Web Service Failure. Please Try Again Later`
+  String get WebFailureException {
+    return Intl.message(
+      'Web Service Failure. Please Try Again Later',
+      name: 'WebFailureException',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error Updating Address. Please Contact Support`
+  String get ErrorUpdateAddressException {
+    return Intl.message(
+      'Error Updating Address. Please Contact Support',
+      name: 'ErrorUpdateAddressException',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unknown Error`
+  String get UnknownError {
+    return Intl.message(
+      'Unknown Error',
+      name: 'UnknownError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Address`
+  String get addAddress {
+    return Intl.message(
+      'Add Address',
+      name: 'addAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone number must be 11 digits and start with 01`
+  String get phoneMustBe11Digits {
+    return Intl.message(
+      'Phone number must be 11 digits and start with 01',
+      name: 'phoneMustBe11Digits',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `See All`
   String get seeAll {
     return Intl.message(

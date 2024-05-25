@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/boxes.dart';
+import '../../generated/l10n.dart';
 import 'address_provider.dart';
 
 class AddAddressPage extends StatefulWidget {
@@ -15,7 +16,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _countryController =
-      TextEditingController(text: "Egypt");
+      TextEditingController(text: 'Egypt');
   final TextEditingController _cityController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _streetController = TextEditingController();
@@ -39,8 +40,8 @@ class _AddAddressPageState extends State<AddAddressPage> {
               AddressUpdateStates.errorWebAccess) {
             WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                    content: Text('Failed to access store services')),
+                SnackBar(
+                    content: Text(S.of(context).failedToAccessStoreService)),
               );
             });
             return buildMainUI(notifier);
@@ -48,8 +49,8 @@ class _AddAddressPageState extends State<AddAddressPage> {
               AddressUpdateStates.errorUpdateAddress) {
             WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                    content: Text('Failed to update user\'s address')),
+                SnackBar(
+                    content: Text(S.of(context).failedToUpdateUserAddress)),
               );
             });
             return buildMainUI(notifier);
@@ -80,7 +81,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
             child: const Icon(Icons.arrow_back_ios),
           ),
           title: Text(
-            "Add Address",
+            S.of(context).addAddress,
             style: TextStyle(color: Theme.of(context).colorScheme.secondary),
           ),
         ),
@@ -93,34 +94,35 @@ class _AddAddressPageState extends State<AddAddressPage> {
               children: <Widget>[
                 TextFormField(
                   controller: _countryController,
-                  decoration: InputDecoration(labelText: 'Country'),
+                  decoration: InputDecoration(labelText: S.of(context).country),
                   readOnly: true,
                 ),
                 TextFormField(
                   controller: _cityController,
-                  decoration: InputDecoration(labelText: 'City'),
+                  decoration: InputDecoration(labelText: S.of(context).city),
                   validator: (value) => value == null || value.isEmpty
-                      ? 'Please enter a city'
+                      ? S.of(context).cityIsRequired
                       : null,
                 ),
                 TextFormField(
                   controller: _streetController,
-                  decoration: InputDecoration(labelText: 'Street'),
+                  decoration: InputDecoration(labelText: S.of(context).street),
                   maxLines: 3,
                   validator: (value) => value == null || value.isEmpty
-                      ? 'Please enter a street address'
+                      ? S.of(context).streetIsRequired
                       : null,
                 ),
                 TextFormField(
                   controller: _phoneNumberController,
-                  decoration: InputDecoration(labelText: 'Phone Number'),
+                  decoration:
+                      InputDecoration(labelText: S.of(context).phoneNumber),
                   keyboardType: TextInputType.phone,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter a phone number';
+                      return S.of(context).phoneIsRequired;
                     }
                     if (value.length != 11 || !value.startsWith('01')) {
-                      return 'Phone number must be 11 digits and start with 01';
+                      return S.of(context).phoneMustBe11Digits;
                     }
                     return null;
                   },
@@ -137,12 +139,12 @@ class _AddAddressPageState extends State<AddAddressPage> {
                           _countryController.text,
                           _cityController.text,
                           _streetController.text,
-                          " ", // Assuming second street is optional and blank
+                          ' ', // Assuming second street is optional and blank
                           _phoneNumberController.text,
                         );
                       }
                     },
-                    child: Text('Submit'),
+                    child: Text(S.of(context).submit),
                   ),
                 ),
               ],
