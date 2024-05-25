@@ -22,7 +22,7 @@
 	"ErrorUpdateAddressException":
 	"Error Updating Address. Please Contact Support",
 	"UnknownError": "Unknown Error",
-	"pointsMustBeMoreThan10" : "Points can't be less than 10",
+	"pointsMustBeMoreThan10" : "Points can't be less than 100",
 
 
 	"addAddress" : "Add Address",

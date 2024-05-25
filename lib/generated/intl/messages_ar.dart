@@ -964,7 +964,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "pointRewardMessage": MessageLookupByLibrary.simpleMessage(
             "هناك تخفيض يمكنك تطبيقه من نقاطك على قفتك"),
         "pointsMustBeMoreThan10":
-            MessageLookupByLibrary.simpleMessage("أقل قيمة لعدد النقاط هي ١٠"),
+            MessageLookupByLibrary.simpleMessage("أقل قيمة لعدد النقاط هي ١٠٠"),
         "polish": MessageLookupByLibrary.simpleMessage("بولندية"),
         "popular": MessageLookupByLibrary.simpleMessage("متميز"),
         "popularity": MessageLookupByLibrary.simpleMessage("الشعبية"),

@@ -230,10 +230,10 @@ class S {
     );
   }
 
-  /// `Points can't be less than 10`
+  /// `Points can't be less than 100`
   String get pointsMustBeMoreThan10 {
     return Intl.message(
-      'Points can\'t be less than 10',
+      'Points can\'t be less than 100',
       name: 'pointsMustBeMoreThan10',
       desc: '',
       args: [],

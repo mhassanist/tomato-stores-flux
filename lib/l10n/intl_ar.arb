@@ -24,7 +24,7 @@
 	"ErrorUpdateAddressException":
 	"خطأ أثناء تحديث العنوان. حاول مرة اخرى",
 	"UnknownError": "خطأ غير محدد",
-	"pointsMustBeMoreThan10" : "أقل قيمة لعدد النقاط هي ١٠",
+	"pointsMustBeMoreThan10" : "أقل قيمة لعدد النقاط هي ١٠٠",
 	"seeAll": "اظهار الكل",
 	"featureProducts": "منتجات مميزة",
 	"bagsCollections": "مجموعات الحقائب",
