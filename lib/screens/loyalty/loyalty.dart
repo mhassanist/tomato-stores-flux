@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flux_firebase/index.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 
@@ -121,27 +119,27 @@ class LoyaltyPage extends StatelessWidget {
       BuildContext context, LoyaltyModelNotifier loyaltyModel) {
     return Column(
       children: [
-        VoucherButton(
-          enabled: true,
-          text: 'Create bills',
-          onPressed: () async {
-            var sum = 0;
-            var rng = Random();
-            var list = [];
-            for (var i = 0; i < 18; i++) {
-              var n = rng.nextInt(34587);
-              list.add(n);
-              sum += n;
-            }
-            print(sum);
-            for (var i = 0; i < list.length; i++) {
-              var invNet = list[i];
-              FirebaseFirestore.instance.collection("TomatoInvoices").add(
-                  {'INVCustomerID': loyaltyModel.userPhone, 'INVNet': invNet});
-            }
-          },
-          iconPath: 'assets/images/invoices_icon.jpeg',
-        ),
+        // VoucherButton(
+        //   enabled: true,
+        //   text: 'Create bills',
+        //   onPressed: () async {
+        //     var sum = 0;
+        //     var rng = Random();
+        //     var list = [];
+        //     for (var i = 0; i < 18; i++) {
+        //       var n = rng.nextInt(34587);
+        //       list.add(n);
+        //       sum += n;
+        //     }
+        //     print(sum);
+        //     for (var i = 0; i < list.length; i++) {
+        //       var invNet = list[i];
+        //       FirebaseFirestore.instance.collection("TomatoInvoices").add(
+        //           {'INVCustomerID': loyaltyModel.userPhone, 'INVNet': invNet});
+        //     }
+        //   },
+        //   iconPath: 'assets/images/invoices_icon.jpeg',
+        // ),
         Text(
           '${S.of(context).welcome}, ${UserBox().userInfo!.firstName!}',
           style: const TextStyle(
