@@ -83,61 +83,58 @@ class RoundedImageBackground extends StatelessWidget {
                 ),
               ),
               // Three lines of text on the right
-              Expanded(
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
-                        child: Text('VOUCHER',
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 28)),
+              Align(
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
+                      child: Text('VOUCHER',
+                          style: TextStyle(color: Colors.white, fontSize: 28)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(80, 0, 20, 0),
+                      child: Row(
+                        children: List.generate(
+                            150 ~/ 4,
+                            (index) => Expanded(
+                                  child: Container(
+                                    color: index % 2 == 0
+                                        ? Colors.transparent
+                                        : Colors.white,
+                                    height: 2,
+                                  ),
+                                )),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(80, 0, 20, 0),
-                        child: Row(
-                          children: List.generate(
-                              150 ~/ 4,
-                              (index) => Expanded(
-                                    child: Container(
-                                      color: index % 2 == 0
-                                          ? Colors.transparent
-                                          : Colors.white,
-                                      height: 2,
-                                    ),
-                                  )),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                      child: Text('${voucher['Value'].toInt()} L.E',
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
+                      child: SizedBox(
+                        height: 50,
+                        child: SfBarcodeGenerator(
+                          value: '*${voucher.id}*',
+                          symbology: Code128A(),
+                          showValue: false,
+                          barColor: Colors.white,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                        child: Text('${voucher['Value'].toInt()} L.E',
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 32,
-                                fontWeight: FontWeight.bold)),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
-                        child: SizedBox(
-                          height: 50,
-                          child: SfBarcodeGenerator(
-                            value: '*${voucher.id}*',
-                            symbology: Code128A(),
-                            showValue: false,
-                            barColor: Colors.white,
-                          ),
-                        ),
-                      ),
-                      Text(
-                        voucher.id,
-                        style: const TextStyle(
-                            letterSpacing: 4, color: Colors.white),
-                      )
-                    ],
-                  ),
+                    ),
+                    Text(
+                      voucher.id,
+                      style: const TextStyle(
+                          letterSpacing: 4, color: Colors.white),
+                    )
+                  ],
                 ),
               ),
             ],
