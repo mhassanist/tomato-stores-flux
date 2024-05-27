@@ -110,11 +110,21 @@ class S {
     );
   }
 
-  /// `points`
-  String get pointCount {
+  /// `Points Count`
+  String get pointsCount {
     return Intl.message(
-      'points',
-      name: 'pointCount',
+      'Points Count',
+      name: 'pointsCount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Money Value`
+  String get voucherMoneyValue {
+    return Intl.message(
+      'Money Value',
+      name: 'voucherMoneyValue',
       desc: '',
       args: [],
     );
@@ -255,6 +265,36 @@ class S {
     return Intl.message(
       'Phone number must be 11 digits and start with 01',
       name: 'phoneMustBe11Digits',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Redeemed`
+  String get redeemed_vouchers {
+    return Intl.message(
+      'Redeemed',
+      name: 'redeemed_vouchers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Active`
+  String get active_vouchers {
+    return Intl.message(
+      'Active',
+      name: 'active_vouchers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Expired`
+  String get expired_vouchers {
+    return Intl.message(
+      'Expired',
+      name: 'expired_vouchers',
       desc: '',
       args: [],
     );

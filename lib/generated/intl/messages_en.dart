@@ -141,6 +141,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "activeLongAgo":
             MessageLookupByLibrary.simpleMessage("Active a long time ago"),
         "activeNow": MessageLookupByLibrary.simpleMessage("Active now"),
+        "active_vouchers": MessageLookupByLibrary.simpleMessage("Active"),
         "addAName": MessageLookupByLibrary.simpleMessage("Add a name"),
         "addANewPost": MessageLookupByLibrary.simpleMessage("Add A New Post"),
         "addASlug": MessageLookupByLibrary.simpleMessage("Add a slug"),
@@ -538,6 +539,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "expired": MessageLookupByLibrary.simpleMessage("Expired"),
         "expiredDate": MessageLookupByLibrary.simpleMessage("Expired Date"),
         "expiredDateHint": MessageLookupByLibrary.simpleMessage("MM/YY"),
+        "expired_vouchers": MessageLookupByLibrary.simpleMessage("Expired"),
         "expiringInTime": m13,
         "external": MessageLookupByLibrary.simpleMessage("External"),
         "extraServices": MessageLookupByLibrary.simpleMessage("Extra Services"),
@@ -951,7 +953,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "pleasefillUpAllCellsProperly": MessageLookupByLibrary.simpleMessage(
             "*Please fill up all the cells properly"),
         "point": MessageLookupByLibrary.simpleMessage("Point"),
-        "pointCount": MessageLookupByLibrary.simpleMessage("points"),
         "pointMsgConfigNotFound": MessageLookupByLibrary.simpleMessage(
             "There is no discount point configuration has been found in server"),
         "pointMsgEnter":
@@ -971,6 +972,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Discount point is applied successfully"),
         "pointRewardMessage": MessageLookupByLibrary.simpleMessage(
             "There is the Discount Rule for applying your points to Cart"),
+        "pointsCount": MessageLookupByLibrary.simpleMessage("Points Count"),
         "pointsMustBeMoreThan10": MessageLookupByLibrary.simpleMessage(
             "Points can\'t be less than 100"),
         "polish": MessageLookupByLibrary.simpleMessage("Polish"),
@@ -1065,6 +1067,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "recommended": MessageLookupByLibrary.simpleMessage("Recommended"),
         "recurringTotals":
             MessageLookupByLibrary.simpleMessage("Recurring Totals"),
+        "redeemed_vouchers": MessageLookupByLibrary.simpleMessage("Redeemed"),
         "refresh": MessageLookupByLibrary.simpleMessage("Refresh"),
         "refundOrderFailed": MessageLookupByLibrary.simpleMessage(
             "The request for a refund for the order was unsuccessful"),
@@ -1395,6 +1398,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("View recent transactions"),
         "visible": MessageLookupByLibrary.simpleMessage("Visible"),
         "visitStore": MessageLookupByLibrary.simpleMessage("Visit Store"),
+        "voucherMoneyValue":
+            MessageLookupByLibrary.simpleMessage("Money Value"),
         "vouchers": MessageLookupByLibrary.simpleMessage("Vouchers"),
         "waitForLoad":
             MessageLookupByLibrary.simpleMessage("Waiting for loading image"),

@@ -1,6 +1,7 @@
 // lib/widgets/voucher_button.dart
 
 import 'package:flutter/material.dart';
+import 'package:fstore/screens/loyalty/rounded_button.dart';
 
 class VoucherButton extends StatelessWidget {
   final String iconPath;
@@ -29,22 +30,10 @@ class VoucherButton extends StatelessWidget {
             width: 80.0,
           ),
           const SizedBox(height: 10.0),
-          Container(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 80.0, vertical: 10.0),
-            decoration: BoxDecoration(
-              color: enabled
-                  ? const Color.fromARGB(255, 206, 40, 38)
-                  : Colors.grey,
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            child: Text(
-              text,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-              ),
-            ),
+          RoundedButton(
+            enabled: enabled,
+            text: text,
+            wide: true,
           ),
         ],
       ),

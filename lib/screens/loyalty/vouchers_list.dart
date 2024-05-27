@@ -6,14 +6,37 @@ import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 
 import '../../generated/l10n.dart';
 import 'add_voucher.dart';
+import 'loyalty_colors.dart' as colors;
 import 'voucher_card_screen.dart';
 
-class VoucherListScreen extends StatelessWidget {
+class VoucherListScreen extends StatefulWidget {
+  final userPhone;
+
+  VoucherListScreen(this.userPhone);
+
+  @override
+  State<VoucherListScreen> createState() => _VoucherListScreenState();
+}
+
+enum ActiveTab { active, expired, redeemed }
+
+class _VoucherListScreenState extends State<VoucherListScreen> {
   final CollectionReference _vouchersCollection =
       FirebaseFirestore.instance.collection('Vouchers');
 
-  final userPhone;
-  VoucherListScreen(this.userPhone);
+  ActiveTab activeTab = ActiveTab.active;
+
+  var selectedSnapShot;
+
+  @override
+  void initState() {
+    selectedSnapShot = _vouchersCollection
+        .where('CustomerID', isEqualTo: widget.userPhone)
+        .where('RedeemedAt', isNull: true)
+        .where('ExpirationDate', isGreaterThan: DateTime.now())
+        .snapshots();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,27 +63,98 @@ class VoucherListScreen extends StatelessWidget {
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
-        child: StreamBuilder<QuerySnapshot>(
-          stream: _vouchersCollection
-              .where('CustomerID', isEqualTo: userPhone)
-              .where('RedeemedAt', isNull: true)
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return Center(child: Text(snapshot.error.toString()));
-            }
-            if (!snapshot.hasData) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            var vouchers = snapshot.data!.docs;
-            return ListView.builder(
-              itemCount: vouchers.length,
-              itemBuilder: (context, index) {
-                var voucher = vouchers[index];
-                return buildVoucherListItem(context, voucher);
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: activeTab == ActiveTab.active
+                        ? MaterialStatePropertyAll<Color>(colors.brandColor)
+                        : const MaterialStatePropertyAll<Color>(Colors.grey),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      selectedSnapShot = _vouchersCollection
+                          .where('CustomerID', isEqualTo: widget.userPhone)
+                          .where('RedeemedAt', isNull: true)
+                          .where('ExpirationDate',
+                              isGreaterThan: DateTime.now())
+                          .snapshots();
+                      activeTab = ActiveTab.active;
+                    });
+                  },
+                  child: Text(
+                    S.of(context).active_vouchers,
+                  ),
+                ),
+                ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: activeTab == ActiveTab.redeemed
+                        ? MaterialStatePropertyAll<Color>(colors.brandColor)
+                        : const MaterialStatePropertyAll<Color>(Colors.grey),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      selectedSnapShot = _vouchersCollection
+                          .where('CustomerID', isEqualTo: widget.userPhone)
+                          .where('RedeemedAt', isNull: false)
+                          .snapshots();
+                      activeTab = ActiveTab.redeemed;
+                    });
+                  },
+                  child: Text(
+                    S.of(context).redeemed_vouchers,
+                  ),
+                ),
+                ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: activeTab == ActiveTab.expired
+                        ? MaterialStatePropertyAll<Color>(colors.brandColor)
+                        : const MaterialStatePropertyAll<Color>(Colors.grey),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      selectedSnapShot = _vouchersCollection
+                          .where('CustomerID', isEqualTo: widget.userPhone)
+                          .where('ExpirationDate', isLessThan: DateTime.now())
+                          .where('RedeemedAt', isNull: true)
+                          .snapshots();
+                      activeTab = ActiveTab.expired;
+                    });
+                  },
+                  child: Text(
+                    S.of(context).expired_vouchers,
+                  ),
+                ),
+              ],
+            ),
+            StreamBuilder<QuerySnapshot>(
+              stream: selectedSnapShot,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  var error = snapshot.error.toString();
+                  print(error);
+                  return Center(child: Text(error));
+                }
+                if (!snapshot.hasData) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                var vouchers = snapshot.data!.docs;
+                return Flexible(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: vouchers.length,
+                    itemBuilder: (context, index) {
+                      var voucher = vouchers[index];
+                      return buildVoucherListItem(context, voucher);
+                    },
+                  ),
+                );
               },
-            );
-          },
+            ),
+          ],
         ),
       )),
       floatingActionButton: FloatingActionButton(
@@ -69,7 +163,7 @@ class VoucherListScreen extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => AddVoucherScreen(userPhone)),
+                builder: (context) => AddVoucherScreen(widget.userPhone)),
           );
         },
         child: const Icon(
@@ -105,13 +199,16 @@ class VoucherListScreen extends StatelessWidget {
           },
           child: CouponCard(
             height: 140,
-            backgroundColor: const Color.fromARGB(255, 185, 29, 42),
+            backgroundColor:
+                activeTab == ActiveTab.active ? colors.brandColor : Colors.grey,
             curveAxis: Axis.vertical,
             curveRadius: 25,
             clockwise: false,
             firstChild: Container(
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 185, 29, 42),
+              decoration: BoxDecoration(
+                color: activeTab == ActiveTab.active
+                    ? colors.brandColor
+                    : Colors.grey,
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -149,7 +246,7 @@ class VoucherListScreen extends StatelessWidget {
                   ),
                   const Divider(color: Colors.white, height: 12),
                   Text(
-                    '${S.of(context).validTill}  ${DateFormat('dd-MM-yyyy').format(DateTime.parse(voucher['ExpirationDate'])).toString()}',
+                    '${S.of(context).validTill}  ${DateFormat('dd-MM-yyyy').format(voucher['ExpirationDate'].toDate()).toString()}',
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Colors.white,

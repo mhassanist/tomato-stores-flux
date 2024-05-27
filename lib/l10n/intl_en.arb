@@ -6,7 +6,8 @@
 	"vouchers": "Vouchers",
 	"invoices": "Invoices",
 	"validTill" : "Valid Till",
-	"pointCount" : "points",
+	"pointsCount" : "Points Count",
+	"voucherMoneyValue" : "Money Value",
 	"createVoucher" : "Create Voucher",
 	"succeededClosing" : "Success! Closing...",
 	"failedToAccessStoreService": "Failed to access store services",
@@ -23,10 +24,12 @@
 	"Error Updating Address. Please Contact Support",
 	"UnknownError": "Unknown Error",
 	"pointsMustBeMoreThan10" : "Points can't be less than 100",
-
-
 	"addAddress" : "Add Address",
 	"phoneMustBe11Digits":"Phone number must be 11 digits and start with 01",
+	"redeemed_vouchers": "Redeemed",
+	"active_vouchers": "Active",
+	"expired_vouchers": "Expired",
+
 	"seeAll": "See All",
 	"featureProducts": "Feature Products",
 	"bagsCollections": "Gears Collections",

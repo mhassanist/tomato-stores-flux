@@ -140,6 +140,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "activeLongAgo":
             MessageLookupByLibrary.simpleMessage("نشط منذ وقت طويل"),
         "activeNow": MessageLookupByLibrary.simpleMessage("نشط الآن"),
+        "active_vouchers": MessageLookupByLibrary.simpleMessage("نشط"),
         "addAName": MessageLookupByLibrary.simpleMessage("أضف اسماً"),
         "addANewPost": MessageLookupByLibrary.simpleMessage("أضف منشور جديد"),
         "addASlug": MessageLookupByLibrary.simpleMessage("أضف صلاق"),
@@ -526,6 +527,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "expired": MessageLookupByLibrary.simpleMessage("منتهية الصلاحية"),
         "expiredDate": MessageLookupByLibrary.simpleMessage("منتهي الصلاحية"),
         "expiredDateHint": MessageLookupByLibrary.simpleMessage("شهر / سنة"),
+        "expired_vouchers": MessageLookupByLibrary.simpleMessage("منتهي"),
         "expiringInTime": m13,
         "external": MessageLookupByLibrary.simpleMessage("خارجي"),
         "extraServices": MessageLookupByLibrary.simpleMessage("خدمات إضافية"),
@@ -944,7 +946,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "pleasefillUpAllCellsProperly": MessageLookupByLibrary.simpleMessage(
             "*يرجى ملء جميع الخانات بشكل صحيح"),
         "point": MessageLookupByLibrary.simpleMessage("نقطة"),
-        "pointCount": MessageLookupByLibrary.simpleMessage("عدد النقاط"),
         "pointMsgConfigNotFound": MessageLookupByLibrary.simpleMessage(
             "لم يتم العثور على اعدادات نقاط خصم في الخادم"),
         "pointMsgEnter":
@@ -963,6 +964,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("تم تطبيق نقطة الخصم بنجاح"),
         "pointRewardMessage": MessageLookupByLibrary.simpleMessage(
             "هناك تخفيض يمكنك تطبيقه من نقاطك على قفتك"),
+        "pointsCount": MessageLookupByLibrary.simpleMessage("عدد النقاط"),
         "pointsMustBeMoreThan10":
             MessageLookupByLibrary.simpleMessage("أقل قيمة لعدد النقاط هي ١٠٠"),
         "polish": MessageLookupByLibrary.simpleMessage("بولندية"),
@@ -1055,6 +1057,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "recommended": MessageLookupByLibrary.simpleMessage("موصى به"),
         "recurringTotals":
             MessageLookupByLibrary.simpleMessage("الأجمالى المكرر"),
+        "redeemed_vouchers": MessageLookupByLibrary.simpleMessage("مستبدل"),
         "refresh": MessageLookupByLibrary.simpleMessage("تحديث"),
         "refundOrderFailed": MessageLookupByLibrary.simpleMessage(
             "لم ينجح طلب استرداد أموال الطلب"),
@@ -1369,6 +1372,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("عرض المعاملات الأخيرة"),
         "visible": MessageLookupByLibrary.simpleMessage("مرئي"),
         "visitStore": MessageLookupByLibrary.simpleMessage("زيارة المتجر"),
+        "voucherMoneyValue":
+            MessageLookupByLibrary.simpleMessage("قيمة القسيمة"),
         "vouchers": MessageLookupByLibrary.simpleMessage("الكوبونات"),
         "waitForLoad":
             MessageLookupByLibrary.simpleMessage("في انتظار تحميل الصورة"),

@@ -165,7 +165,7 @@ class LoyaltyWebService {
       'CustomerID': customerPhone,
       'CreatedAt': DateTime.now(),
       'ExpirationDate':
-          DateTime.now().add(const Duration(days: 30)).toIso8601String(),
+          DateTime.now().add(const Duration(days: 30)),
       'Points': points,
       'Value': points * cpv,
       'RedeemedAt': null,

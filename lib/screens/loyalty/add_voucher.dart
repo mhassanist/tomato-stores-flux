@@ -1,3 +1,4 @@
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -20,7 +21,51 @@ enum ScreenState { initial, loading, success, failure }
 class _AddVoucherScreenState extends State<AddVoucherScreen> {
   ScreenState state = ScreenState.initial;
   final _pointsController = TextEditingController();
+  final _moneyController = TextEditingController();
   String errorMessage = '';
+
+  late double cpv;
+  bool _isUpdating = false;
+
+  @override
+  void initState() {
+    super.initState();
+    var remoteConfig = FirebaseRemoteConfig.instance;
+    cpv = remoteConfig.getDouble('CPV');
+    _pointsController.addListener(_updateMoneyValue);
+    _moneyController.addListener(_updatePointsValue);
+  }
+
+  @override
+  void dispose() {
+    _pointsController.removeListener(_updateMoneyValue);
+    _moneyController.removeListener(_updatePointsValue);
+    _pointsController.dispose();
+    _moneyController.dispose();
+    super.dispose();
+  }
+
+  void _updateMoneyValue() {
+    if (_isUpdating) return;
+    _isUpdating = true;
+    if (_pointsController.text.isNotEmpty) {
+      final points = int.tryParse(_pointsController.text) ?? 0;
+      final money = points * cpv;
+      _moneyController.text = money.toStringAsFixed(0);
+    }
+    _isUpdating = false;
+  }
+
+  void _updatePointsValue() {
+    if (_isUpdating) return;
+    _isUpdating = true;
+    if (_moneyController.text.isNotEmpty) {
+      final money = int.tryParse(_moneyController.text) ?? 0;
+      final points = (money / cpv).round();
+      _pointsController.text = points.toString();
+    }
+    _isUpdating = false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +126,17 @@ class _AddVoucherScreenState extends State<AddVoucherScreen> {
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
-            labelText: S.of(context).pointCount,
+            labelText: S.of(context).pointsCount,
+            border: OutlineInputBorder(),
+          ),
+        ),
+        const SizedBox(height: 10),
+        TextField(
+          controller: _moneyController,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          keyboardType: TextInputType.number,
+          decoration: InputDecoration(
+            labelText: S.of(context).voucherMoneyValue,
             border: OutlineInputBorder(),
           ),
         ),
