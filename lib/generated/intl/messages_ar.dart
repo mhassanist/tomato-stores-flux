@@ -701,7 +701,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "loginToYourAccount":
             MessageLookupByLibrary.simpleMessage("تسجيل الدخول إلى حسابك"),
         "logout": MessageLookupByLibrary.simpleMessage("خروج"),
-        "loyaltyTitle": MessageLookupByLibrary.simpleMessage("نقاطك"),
+        "loyaltyTitle": MessageLookupByLibrary.simpleMessage("النقاط"),
         "malay": MessageLookupByLibrary.simpleMessage("لغة الملايو"),
         "manCollections": MessageLookupByLibrary.simpleMessage("مجموعات الرجل"),
         "manageApiKey": MessageLookupByLibrary.simpleMessage("إدارة مفتاح API"),
@@ -1234,7 +1234,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "storeLogo": MessageLookupByLibrary.simpleMessage("شعار المتجر"),
         "storeMobileBanner":
             MessageLookupByLibrary.simpleMessage("لافتة الموبايل للمتجر"),
-        "storePoints": MessageLookupByLibrary.simpleMessage("نقاطك"),
+        "storePoints": MessageLookupByLibrary.simpleMessage("النقاط"),
         "storeSettings": MessageLookupByLibrary.simpleMessage("إعدادات المتجر"),
         "storeSliderBanner":
             MessageLookupByLibrary.simpleMessage("لافتة شريط التمرير للمتجر"),

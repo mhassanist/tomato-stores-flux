@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:inspireui/inspireui.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 
@@ -31,7 +32,7 @@ class LoyaltyPage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
+          padding: const EdgeInsets.fromLTRB(0, 15, 15, 0),
           child:
               //Listview to enable auto scrolling in small screens
               ListView(children: [_buildBody(context, user, loyaltyProvider)]),
@@ -146,7 +147,7 @@ class LoyaltyPage extends StatelessWidget {
               color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
         ),
         SizedBox(
-          height: 100,
+          height: 60,
           child: SfBarcodeGenerator(
             value: '*${loyaltyModel.userPhone}*',
             symbology: Code128A(),
@@ -154,11 +155,12 @@ class LoyaltyPage extends StatelessWidget {
           ),
         ),
         Text(loyaltyModel.userPhone!),
+        Text("Scan the QR code at Tomato stores"),
         Card(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            padding: const EdgeInsets.symmetric(vertical: 0.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   S.of(context).storePoints,
@@ -167,13 +169,13 @@ class LoyaltyPage extends StatelessWidget {
                       fontSize: 24,
                       fontWeight: FontWeight.bold),
                 ),
-                const Text(' - '),
+                const Text(' : '),
                 UserStorePoints(documentId: loyaltyModel.userPhone!),
               ],
             ),
           ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 15),
         VoucherButton(
           text: S.of(context).vouchers,
           onPressed: () {

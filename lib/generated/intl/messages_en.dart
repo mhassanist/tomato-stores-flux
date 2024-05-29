@@ -1254,7 +1254,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "storeLogo": MessageLookupByLibrary.simpleMessage("Store Logo"),
         "storeMobileBanner":
             MessageLookupByLibrary.simpleMessage("Store Mobile Banner"),
-        "storePoints": MessageLookupByLibrary.simpleMessage("Store Points"),
+        "storePoints": MessageLookupByLibrary.simpleMessage("My Points"),
         "storeSettings": MessageLookupByLibrary.simpleMessage("Store Settings"),
         "storeSliderBanner":
             MessageLookupByLibrary.simpleMessage("Store Slider Banner"),

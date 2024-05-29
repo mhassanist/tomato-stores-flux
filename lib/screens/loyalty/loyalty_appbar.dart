@@ -9,11 +9,11 @@ class TomatoPointAppBar extends StatelessWidget implements PreferredSizeWidget {
         height: preferredSize.height,
         alignment: Alignment.center,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
           child: SizedBox(
             child: Image.asset(
               'assets/images/tomato_points_logo.jpg',
-              height: 75,
+              height: 50,
             ),
           ),
         ),
