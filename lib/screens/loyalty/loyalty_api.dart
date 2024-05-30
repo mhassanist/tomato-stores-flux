@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flux_firebase/index.dart';
 import 'package:http/http.dart';
@@ -44,6 +45,23 @@ class LoyaltyWebService {
         'RedeemedPoints': 0
       });
       return 0;
+    }
+  }
+
+  Future<void> sendVoucherCode(String phoneNumber, String voucherCode,
+      voucherValue, String language) async {
+    HttpsCallable callable =
+        FirebaseFunctions.instance.httpsCallable('sendVoucherCodeTomato');
+    try {
+      final HttpsCallableResult result = await callable.call(<String, dynamic>{
+        'phoneNumber': '2$phoneNumber',
+        'voucherCode': voucherCode,
+        'voucherValue': voucherValue,
+        'language': language,
+      });
+      print('Function result: ${result.data}');
+    } catch (e) {
+      print('Error: $e');
     }
   }
 
@@ -159,18 +177,20 @@ class LoyaltyWebService {
           .exists;
       voucherId = VoucherGenerator.generateRandomCode();
     }
+    var voucherValue = points * cpv;
 
     //create the voucher
     await FirebaseFirestore.instance.collection('Vouchers').doc(voucherId).set({
       'CustomerID': customerPhone,
       'CreatedAt': DateTime.now(),
-      'ExpirationDate':
-          DateTime.now().add(const Duration(days: 30)),
+      'ExpirationDate': DateTime.now().add(const Duration(days: 30)),
       'Points': points,
-      'Value': points * cpv,
+      'Value': voucherValue,
       'RedeemedAt': null,
       'RedeemedOn': null,
     }).then((_) {});
+
+    await sendVoucherCode(customerPhone, voucherId, voucherValue, 'e');
   }
 
   // Private constructor

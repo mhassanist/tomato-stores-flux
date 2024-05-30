@@ -42,27 +42,47 @@ class _VoucherListScreenState extends State<VoucherListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            // Navigate back to the previous screen by popping the current route
-            Navigator.of(context).pop();
-          },
-        ),
-        title: Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: Image.asset(
-            'assets/images/tomato_points_logo.jpg',
-            height: 50,
+          elevation: 0.1,
+          backgroundColor: Theme.of(context).colorScheme.background,
+          title: Text(
+            S.of(context).vouchers,
+            style: Theme.of(context)
+                .textTheme
+                .headlineSmall
+                ?.copyWith(fontWeight: FontWeight.w700),
           ),
-        ),
-      ),
+          leading: !(ModalRoute.of(context)?.canPop ?? false)
+              ? null
+              : Center(
+                  child: GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: const Icon(
+                      Icons.arrow_back_ios,
+                    ),
+                  ),
+                )),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.white,
+      //   centerTitle: true,
+      //   leading: IconButton(
+      //     icon: const Icon(Icons.arrow_back),
+      //     onPressed: () {
+      //       // Navigate back to the previous screen by popping the current route
+      //       Navigator.of(context).pop();
+      //     },
+      //   ),
+      //   title: Padding(
+      //     padding: const EdgeInsets.all(5.0),
+      //     child: Text(
+      //       S.of(context).vouchers,
+      //       style: tomatoStyles.midSizeTitleTextStyle,
+      //     ),
+      //   ),
+      // ),
       backgroundColor: Colors.white,
       body: SafeArea(
           child: Padding(
-        padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
+        padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
         child: Column(
           children: [
             Row(
