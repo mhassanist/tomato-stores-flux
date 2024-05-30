@@ -6,6 +6,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flux_firebase/index.dart';
 import 'package:http/http.dart';
 
+import '../../data/boxes.dart';
 import 'loyalty_exceptions.dart';
 import 'loyalty_logger.dart';
 import 'vouvher_generator.dart';
@@ -53,6 +54,15 @@ class LoyaltyWebService {
     HttpsCallable callable =
         FirebaseFunctions.instance.httpsCallable('sendVoucherCodeTomato');
     try {
+      var lang = SettingsBox().languageCode;
+      if (lang != null) {
+        if (lang.toLowerCase() == 'en') {
+          language = 'e';
+        } else {
+          language = 'a';
+        }
+      }
+
       final HttpsCallableResult result = await callable.call(<String, dynamic>{
         'phoneNumber': '2$phoneNumber',
         'voucherCode': voucherCode,
