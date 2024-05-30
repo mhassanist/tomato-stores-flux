@@ -50,7 +50,6 @@ dependencies:
   new_version_plus: 0.0.11
   wakelock: ^0.4.0
 
-
   # STATE MANAGEMENT
   provider: 6.0.5
   get_it: ^7.6.4
@@ -213,6 +212,7 @@ dependencies:
   coupon_uikit: ^0.2.1
   firebase_remote_config: ^4.2.3
   firebase_crashlytics: ^3.3.3
+  cloud_functions: ^4.0.0
 
 dev_dependencies:
   flutter_lints: ^3.0.1
