@@ -70,10 +70,10 @@ class S {
     );
   }
 
-  /// `Store Points`
+  /// `My Points`
   String get storePoints {
     return Intl.message(
-      'Store Points',
+      'My Points',
       name: 'storePoints',
       desc: '',
       args: [],
