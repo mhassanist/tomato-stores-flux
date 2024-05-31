@@ -12,7 +12,7 @@ import 'voucher_card_screen.dart';
 class VoucherListScreen extends StatefulWidget {
   final userPhone;
 
-  VoucherListScreen(this.userPhone);
+  const VoucherListScreen(this.userPhone);
 
   @override
   State<VoucherListScreen> createState() => _VoucherListScreenState();
@@ -30,11 +30,7 @@ class _VoucherListScreenState extends State<VoucherListScreen> {
 
   @override
   void initState() {
-    selectedSnapShot = _vouchersCollection
-        .where('CustomerID', isEqualTo: widget.userPhone)
-        .where('RedeemedAt', isNull: true)
-        .where('ExpirationDate', isGreaterThan: DateTime.now())
-        .snapshots();
+    selectedSnapShot = createActiveVouchersQuery();
     super.initState();
   }
 
@@ -61,24 +57,6 @@ class _VoucherListScreenState extends State<VoucherListScreen> {
                     ),
                   ),
                 )),
-      // appBar: AppBar(
-      //   backgroundColor: Colors.white,
-      //   centerTitle: true,
-      //   leading: IconButton(
-      //     icon: const Icon(Icons.arrow_back),
-      //     onPressed: () {
-      //       // Navigate back to the previous screen by popping the current route
-      //       Navigator.of(context).pop();
-      //     },
-      //   ),
-      //   title: Padding(
-      //     padding: const EdgeInsets.all(5.0),
-      //     child: Text(
-      //       S.of(context).vouchers,
-      //       style: tomatoStyles.midSizeTitleTextStyle,
-      //     ),
-      //   ),
-      // ),
       backgroundColor: Colors.white,
       body: SafeArea(
           child: Padding(
@@ -96,12 +74,7 @@ class _VoucherListScreenState extends State<VoucherListScreen> {
                   ),
                   onPressed: () {
                     setState(() {
-                      selectedSnapShot = _vouchersCollection
-                          .where('CustomerID', isEqualTo: widget.userPhone)
-                          .where('RedeemedAt', isNull: true)
-                          .where('ExpirationDate',
-                              isGreaterThan: DateTime.now())
-                          .snapshots();
+                      selectedSnapShot = createActiveVouchersQuery();
                       activeTab = ActiveTab.active;
                     });
                   },
@@ -117,10 +90,7 @@ class _VoucherListScreenState extends State<VoucherListScreen> {
                   ),
                   onPressed: () {
                     setState(() {
-                      selectedSnapShot = _vouchersCollection
-                          .where('CustomerID', isEqualTo: widget.userPhone)
-                          .where('RedeemedAt', isNull: false)
-                          .snapshots();
+                      selectedSnapShot = createRedeemedVouchersSnapshots();
                       activeTab = ActiveTab.redeemed;
                     });
                   },
@@ -136,11 +106,7 @@ class _VoucherListScreenState extends State<VoucherListScreen> {
                   ),
                   onPressed: () {
                     setState(() {
-                      selectedSnapShot = _vouchersCollection
-                          .where('CustomerID', isEqualTo: widget.userPhone)
-                          .where('ExpirationDate', isLessThan: DateTime.now())
-                          .where('RedeemedAt', isNull: true)
-                          .snapshots();
+                      selectedSnapShot = createExpiredVouchersSnapshot();
                       activeTab = ActiveTab.expired;
                     });
                   },
@@ -192,6 +158,29 @@ class _VoucherListScreenState extends State<VoucherListScreen> {
         ),
       ),
     );
+  }
+
+  Stream<QuerySnapshot<Object?>> createRedeemedVouchersSnapshots() {
+    return _vouchersCollection
+        .where('CustomerID', isEqualTo: widget.userPhone)
+        .where('RedeemedAt', isNull: false)
+        .snapshots();
+  }
+
+  Stream<QuerySnapshot<Object?>> createActiveVouchersQuery() {
+    return _vouchersCollection
+        .where('CustomerID', isEqualTo: widget.userPhone)
+        .where('RedeemedAt', isNull: true)
+        .where('ExpirationDate', isGreaterThan: DateTime.now())
+        .snapshots();
+  }
+
+  Stream<QuerySnapshot<Object?>> createExpiredVouchersSnapshot() {
+    return _vouchersCollection
+        .where('CustomerID', isEqualTo: widget.userPhone)
+        .where('ExpirationDate', isLessThan: DateTime.now())
+        .where('RedeemedAt', isNull: true)
+        .snapshots();
   }
 
   Widget buildVoucherListItem(context, voucher) {

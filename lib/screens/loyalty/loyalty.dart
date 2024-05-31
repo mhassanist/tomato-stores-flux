@@ -16,10 +16,7 @@ import 'store_points_widget.dart';
 import 'vouchers_list.dart';
 
 class LoyaltyPage extends StatelessWidget {
-  LoyaltyPage({super.key});
-
-  final TextEditingController _pointsController =
-      TextEditingController(text: '0');
+  const LoyaltyPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +61,10 @@ class LoyaltyPage extends StatelessWidget {
               padding: EdgeInsets.all(50), child: CircularProgressIndicator()));
     } else if (loyaltyProvider.fetchState == LoyaltyPageStates.fetched) {
       return buildLoyaltyPointsUI(context, loyaltyProvider);
-    } else {
+    } else if (loyaltyProvider.fetchState == LoyaltyPageStates.errorNoAddress) {
       return buildAddressNotFoundUI(context, loyaltyProvider);
+    } else {
+      return buildLoyaltyPointsUI(context, loyaltyProvider);
     }
   }
 
@@ -107,7 +106,7 @@ class LoyaltyPage extends StatelessWidget {
                 UserBox().userInfo!.fullName, UserBox().userInfo!.email!));
           },
           child: Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Text(S.of(context).addPhoneNumber),
           ),
         ),

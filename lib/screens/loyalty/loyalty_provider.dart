@@ -25,6 +25,9 @@ class LoyaltyModelNotifier extends ChangeNotifier {
 
   Future<void> fetchUserPoints(String name, String email) async {
     try {
+      fetchState = LoyaltyPageStates.loading;
+      notifyListeners();
+
       dynamic result = await LoyaltyWebService.instance.getUserPhone(email);
       _userPhone = result.toString();
       _userPoints = await LoyaltyWebService.instance
