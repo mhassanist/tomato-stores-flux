@@ -15,13 +15,15 @@ enum LoyaltyPageStates {
 class LoyaltyModelNotifier extends ChangeNotifier {
   String? _userPhone;
   int? _userPoints;
-  LoyaltyException? _error;
+  String? _exception;
 
   LoyaltyPageStates fetchState =
       LoyaltyPageStates.initial; // Initial state for user phone
 
   String? get userPhone => _userPhone;
   int? get userPoints => _userPoints;
+
+  String? get error => _exception;
 
   Future<void> fetchUserPoints(String name, String email) async {
     try {
@@ -41,6 +43,9 @@ class LoyaltyModelNotifier extends ChangeNotifier {
       } else if (exception is LoyaltyNoAddressException) {
         fetchState = LoyaltyPageStates.errorNoAddress;
       } else if (exception is LoyaltyWebService) {
+        fetchState = LoyaltyPageStates.errorWebAccess;
+      } else {
+        _exception = exception.toString();
         fetchState = LoyaltyPageStates.errorWebAccess;
       }
       notifyListeners();

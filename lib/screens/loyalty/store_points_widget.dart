@@ -20,7 +20,7 @@ class UserStorePoints extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
-            data?['StorePoints'].toString() ?? '',
+            data?['StorePoints'].truncate().toString() ?? '',
             style: const TextStyle(
                 color: Colors.red, fontSize: 24, fontWeight: FontWeight.bold),
           ),

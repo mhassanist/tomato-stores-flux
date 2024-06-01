@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:inspireui/inspireui.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 
@@ -64,29 +63,49 @@ class LoyaltyPage extends StatelessWidget {
       return buildLoyaltyPointsUI(context, loyaltyProvider);
     } else if (loyaltyProvider.fetchState == LoyaltyPageStates.errorNoAddress) {
       return buildAddressNotFoundUI(context, loyaltyProvider);
+    } else if (loyaltyProvider.fetchState == LoyaltyPageStates.errorWebAccess) {
+      return buildErrorUI(context, loyaltyProvider);
     } else {
       return buildLoyaltyPointsUI(context, loyaltyProvider);
     }
   }
 
-  Widget buildLoginRequestUI(BuildContext context) {
+  Widget buildErrorUI(BuildContext context, LoyaltyModelNotifier loyaltyModel) {
     return Padding(
-      padding: const EdgeInsets.all(30.0),
-      child: ElevatedButton(
-        onPressed: () {
-          NavigateTools.navigateToLogin(
-            context,
-            replacement: false,
-          );
-        },
-        child: Text(S.of(context).login),
+      padding: const EdgeInsets.all(18.0),
+      child: Column(
+        children: [
+          Text(
+            '${loyaltyModel.error}',
+            style: const TextStyle(
+                color: Colors.red, fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+        ],
       ),
     );
   }
+}
 
-  Widget buildAddressNotFoundUI(
-      BuildContext context, LoyaltyModelNotifier loyaltyProvider) {
-    return Column(
+Widget buildLoginRequestUI(BuildContext context) {
+  return Padding(
+    padding: const EdgeInsets.all(30.0),
+    child: ElevatedButton(
+      onPressed: () {
+        NavigateTools.navigateToLogin(
+          context,
+          replacement: false,
+        );
+      },
+      child: Text(S.of(context).login),
+    ),
+  );
+}
+
+Widget buildAddressNotFoundUI(
+    BuildContext context, LoyaltyModelNotifier loyaltyProvider) {
+  return Padding(
+    padding: const EdgeInsets.all(18.0),
+    child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
@@ -112,89 +131,89 @@ class LoyaltyPage extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
+    ),
+  );
+}
 
-  Widget buildLoyaltyPointsUI(
-      BuildContext context, LoyaltyModelNotifier loyaltyModel) {
-    return Column(
-      children: [
-        // VoucherButton(
-        //   enabled: true,
-        //   text: 'Create bills',
-        //   onPressed: () async {
-        //     var sum = 0;
-        //     var rng = Random();
-        //     var list = [];
-        //     for (var i = 0; i < 18; i++) {
-        //       var n = rng.nextInt(34587);
-        //       list.add(n);
-        //       sum += n;
-        //     }
-        //     print(sum);
-        //     for (var i = 0; i < list.length; i++) {
-        //       var invNet = list[i];
-        //       FirebaseFirestore.instance.collection("TomatoInvoices").add(
-        //           {'INVCustomerID': loyaltyModel.userPhone, 'INVNet': invNet});
-        //     }
-        //   },
-        //   iconPath: 'assets/images/invoices_icon.jpeg',
-        // ),
-        Text(
-          '${S.of(context).welcome}, ${UserBox().userInfo!.firstName!}',
-          style: const TextStyle(
-              color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+Widget buildLoyaltyPointsUI(
+    BuildContext context, LoyaltyModelNotifier loyaltyModel) {
+  return Column(
+    children: [
+      // VoucherButton(
+      //   enabled: true,
+      //   text: 'Create bills',
+      //   onPressed: () async {
+      //     var sum = 0.0;
+      //     var rng = Random();
+      //     var list = [];
+      //     for (var i = 0; i < 18; i++) {
+      //       var n = rng.nextDouble() + rng.nextInt(3487);
+      //       list.add(n);
+      //       sum += n;
+      //     }
+      //     print(sum);
+      //     for (var i = 0; i < list.length; i++) {
+      //       var invNet = list[i];
+      //       FirebaseFirestore.instance.collection("TomatoInvoices").add(
+      //           {'INVCustomerID': loyaltyModel.userPhone, 'INVNet': invNet});
+      //     }
+      //   },
+      //   iconPath: 'assets/images/invoices_icon.jpeg',
+      // ),
+      Text(
+        '${S.of(context).welcome}, ${UserBox().userInfo!.firstName!}',
+        style: const TextStyle(
+            color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+      ),
+      SizedBox(
+        height: 60,
+        child: SfBarcodeGenerator(
+          value: '*${loyaltyModel.userPhone}*',
+          symbology: Code128A(),
+          showValue: false,
         ),
-        SizedBox(
-          height: 60,
-          child: SfBarcodeGenerator(
-            value: '*${loyaltyModel.userPhone}*',
-            symbology: Code128A(),
-            showValue: false,
+      ),
+      Text(loyaltyModel.userPhone!),
+      Text("Scan the QR code at Tomato stores"),
+      Card(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                S.of(context).storePoints,
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold),
+              ),
+              const Text(' : '),
+              UserStorePoints(documentId: loyaltyModel.userPhone!),
+            ],
           ),
         ),
-        Text(loyaltyModel.userPhone!),
-        Text("Scan the QR code at Tomato stores"),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 0.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  S.of(context).storePoints,
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold),
-                ),
-                const Text(' : '),
-                UserStorePoints(documentId: loyaltyModel.userPhone!),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 15),
-        VoucherButton(
-          text: S.of(context).vouchers,
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      VoucherListScreen(loyaltyModel.userPhone)),
-            );
-          },
-          iconPath: 'assets/images/voucher_icon.jpeg',
-        ),
-        const SizedBox(height: 15),
-        VoucherButton(
-          enabled: false,
-          text: S.of(context).invoices,
-          onPressed: () {},
-          iconPath: 'assets/images/invoices_icon.jpeg',
-        ),
-      ],
-    );
-  }
+      ),
+      const SizedBox(height: 15),
+      VoucherButton(
+        text: S.of(context).vouchers,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    VoucherListScreen(loyaltyModel.userPhone)),
+          );
+        },
+        iconPath: 'assets/images/voucher_icon.jpeg',
+      ),
+      const SizedBox(height: 15),
+      VoucherButton(
+        enabled: false,
+        text: S.of(context).invoices,
+        onPressed: () {},
+        iconPath: 'assets/images/invoices_icon.jpeg',
+      ),
+    ],
+  );
 }
