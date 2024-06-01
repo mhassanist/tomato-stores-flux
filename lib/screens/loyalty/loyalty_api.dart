@@ -31,6 +31,7 @@ class LoyaltyWebService {
           .collection('LoyaltyUsers')
           .doc(phone)
           .set({
+        'CreatedAt': DateTime.now(),
         'Name': name,
         'Email': email,
         'OnlinePoints': 0,
