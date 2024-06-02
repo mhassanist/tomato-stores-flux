@@ -50,11 +50,11 @@ class LoyaltyPage extends StatelessWidget {
   Widget buildLoyaltyStatesUI(BuildContext context, loyaltyProvider) {
     if (loyaltyProvider.fetchState == LoyaltyPageStates.initial) {
       //get user points
-      loyaltyProvider.fetchUserPoints(
-          UserBox().userInfo!.fullName, UserBox().userInfo!.email!);
-      return const Center(
-          child: Padding(
-              padding: EdgeInsets.all(50), child: CircularProgressIndicator()));
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        loyaltyProvider.fetchUserPoints(
+            UserBox().userInfo!.fullName, UserBox().userInfo!.email!);
+      });
+      return Container();
     } else if (loyaltyProvider.fetchState == LoyaltyPageStates.loading) {
       return const Center(
           child: Padding(

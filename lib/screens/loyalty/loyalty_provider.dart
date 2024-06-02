@@ -27,6 +27,7 @@ class LoyaltyModelNotifier extends ChangeNotifier {
 
   Future<void> fetchUserPoints(String name, String email) async {
     try {
+      await Future.delayed(const Duration(milliseconds: 200));
       fetchState = LoyaltyPageStates.loading;
       notifyListeners();
 
