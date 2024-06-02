@@ -14,14 +14,14 @@ enum LoyaltyPageStates {
 
 class LoyaltyModelNotifier extends ChangeNotifier {
   String? _userPhone;
-  double? _userPoints;
+  num? _userPoints;
   String? _exception;
 
   LoyaltyPageStates fetchState =
       LoyaltyPageStates.initial; // Initial state for user phone
 
   String? get userPhone => _userPhone;
-  double? get userPoints => _userPoints;
+  num? get userPoints => _userPoints;
 
   String? get error => _exception;
 

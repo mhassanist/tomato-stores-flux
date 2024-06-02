@@ -14,7 +14,7 @@ import 'vouvher_generator.dart';
 
 //Singleton Loyalty API Calls Class
 class LoyaltyWebService {
-  Future<double> getUserPoints(phone, name, email) async {
+  Future<num> getUserPoints(phone, name, email) async {
     var doc = await FirebaseFirestore.instance
         .collection('LoyaltyUsers')
         .doc(phone)
