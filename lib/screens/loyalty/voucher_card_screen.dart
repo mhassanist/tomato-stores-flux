@@ -118,14 +118,15 @@ class RoundedImageBackground extends StatelessWidget {
                               fontWeight: FontWeight.bold)),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(90, 0, 20, 0),
                       child: SizedBox(
                         height: 50,
                         child: SfBarcodeGenerator(
                           value: '*${voucher.id}*',
                           symbology: Code128A(),
                           showValue: false,
-                          barColor: Colors.white,
+                          barColor: Colors.black,
+                          backgroundColor: Colors.white,
                         ),
                       ),
                     ),

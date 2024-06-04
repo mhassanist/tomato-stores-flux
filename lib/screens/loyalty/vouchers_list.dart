@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coupon_uikit/coupon_uikit.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 
 import '../../generated/l10n.dart';
 import 'add_voucher.dart';
@@ -222,18 +221,27 @@ class _VoucherListScreenState extends State<VoucherListScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    height: 50,
-                    child: SfBarcodeGenerator(
-                      value: voucher.id.toString().substring(0, 6),
-                      symbology: Codabar(),
-                      showValue: false,
-                      barColor: Colors.white,
-                    ),
+                  // SizedBox(
+                  //   height: 50,
+                  //   child: SfBarcodeGenerator(
+                  //     value: voucher.id.toString().substring(0, 6),
+                  //     symbology: Codabar(),
+                  //     showValue: false,
+                  //     barColor: Colors.white,
+                  //   ),
+                  // ),
+                  Text(
+                    S.of(context).validTill,
+                    style: const TextStyle(color: Colors.white),
                   ),
                   Text(
-                    voucher.id.toString().toUpperCase().substring(0, 8),
-                    style: const TextStyle(color: Colors.white),
+                    DateFormat('dd-MM-yyyy')
+                        .format(voucher['ExpirationDate'].toDate())
+                        .toString(),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
                   )
                 ],
               ),
@@ -255,11 +263,10 @@ class _VoucherListScreenState extends State<VoucherListScreen> {
                   ),
                   const Divider(color: Colors.white, height: 12),
                   Text(
-                    '${S.of(context).validTill}  ${DateFormat('dd-MM-yyyy').format(voucher['ExpirationDate'].toDate()).toString()}',
+                    //'${S.of(context).validTill}  ${DateFormat('dd-MM-yyyy').format(voucher['ExpirationDate'].toDate()).toString()}',
+                    voucher.id.toString(),
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
-                    ),
+                    style: const TextStyle(color: Colors.white, fontSize: 14),
                   ),
                 ],
               ),
