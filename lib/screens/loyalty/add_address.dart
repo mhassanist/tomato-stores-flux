@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/boxes.dart';
@@ -114,6 +115,10 @@ class _AddAddressPageState extends State<AddAddressPage> {
                 ),
                 TextFormField(
                   controller: _phoneNumberController,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp('[0-9]')),
+                  ], // Only numbers can be entered
+
                   decoration:
                       InputDecoration(labelText: S.of(context).phoneNumber),
                   keyboardType: TextInputType.phone,
