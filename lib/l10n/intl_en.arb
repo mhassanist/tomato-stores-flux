@@ -29,6 +29,7 @@
 	"redeemed_vouchers": "Redeemed",
 	"active_vouchers": "Active",
 	"expired_vouchers": "Expired",
+	"invoices": "Invoices",
 
 	"seeAll": "See All",
 	"featureProducts": "Feature Products",

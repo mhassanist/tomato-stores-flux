@@ -191,6 +191,8 @@ class LoyaltyWebService {
       'Value': voucherValue,
       'RedeemedAt': null,
       'RedeemedOn': null,
+      'InvNo': 0,
+      'IsUsed': 0,
     }).then((_) {});
 
     await sendVoucherCode(customerPhone, voucherId, voucherValue, 'e');

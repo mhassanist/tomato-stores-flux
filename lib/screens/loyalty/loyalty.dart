@@ -9,6 +9,7 @@ import '../../data/boxes.dart';
 import '../../generated/l10n.dart';
 import '../../models/index.dart';
 import 'add_address.dart';
+import 'invoices_list.dart';
 import 'loyalty_appbar.dart';
 import 'loyalty_button.dart';
 import 'loyalty_provider.dart';
@@ -209,9 +210,16 @@ Widget buildLoyaltyPointsUI(
       ),
       const SizedBox(height: 15),
       VoucherButton(
-        enabled: false,
+        enabled: true,
         text: S.of(context).invoices,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    InvoicesListScreen(loyaltyModel.userPhone!)),
+          );
+        },
         iconPath: 'assets/images/invoices_icon.jpeg',
       ),
     ],
