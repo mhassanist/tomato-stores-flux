@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../generated/l10n.dart';
 import 'invoice_details.dart';
+import 'utils.dart';
 
 class InvoicesListScreen extends StatefulWidget {
   final String userPhone;
@@ -17,6 +17,12 @@ class InvoicesListScreen extends StatefulWidget {
 class _InvoicesListScreenState extends State<InvoicesListScreen> {
   late DateTime selectedFromDate;
   late DateTime selectedToDate;
+  late ScrollController _scrollController;
+  List<DocumentSnapshot> invoices = [];
+  bool isLoading = false;
+  bool hasMore = true;
+  final int documentLimit = 100;
+  DocumentSnapshot? lastDocument;
 
   @override
   void initState() {
@@ -24,6 +30,20 @@ class _InvoicesListScreenState extends State<InvoicesListScreen> {
     final now = DateTime.now();
     selectedFromDate = DateTime(now.year, now.month, 1);
     selectedToDate = DateTime(now.year, now.month + 1, 0);
+    _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        fetchInvoices();
+      }
+    });
+    fetchInvoices();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   Future<void> _selectFromDate(BuildContext context) async {
@@ -36,6 +56,7 @@ class _InvoicesListScreenState extends State<InvoicesListScreen> {
     if (picked != null && picked != selectedFromDate) {
       setState(() {
         selectedFromDate = picked;
+        resetInvoices();
       });
     }
   }
@@ -50,8 +71,54 @@ class _InvoicesListScreenState extends State<InvoicesListScreen> {
     if (picked != null && picked != selectedToDate) {
       setState(() {
         selectedToDate = picked;
+        resetInvoices();
       });
     }
+  }
+
+  void resetInvoices() {
+    setState(() {
+      invoices = [];
+      lastDocument = null;
+      hasMore = true;
+      fetchInvoices();
+    });
+  }
+
+  Future<void> fetchInvoices() async {
+    if (isLoading || !hasMore) return;
+
+    setState(() {
+      isLoading = true;
+    });
+
+    Query query = FirebaseFirestore.instance
+        .collection('TomatoInvoices')
+        .where('INVCustomerID', isEqualTo: widget.userPhone)
+        .where('INVDATE', isGreaterThanOrEqualTo: selectedFromDate)
+        .where('INVDATE', isLessThanOrEqualTo: selectedToDate)
+        .orderBy('INVDATE')
+        .limit(documentLimit);
+
+    if (lastDocument != null) {
+      query = query.startAfterDocument(lastDocument!);
+    }
+
+    QuerySnapshot querySnapshot = await query.get();
+    if (querySnapshot.docs.isEmpty) {
+      setState(() {
+        hasMore = false;
+      });
+    } else {
+      lastDocument = querySnapshot.docs.last;
+      setState(() {
+        invoices.addAll(querySnapshot.docs);
+      });
+    }
+
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -60,21 +127,7 @@ class _InvoicesListScreenState extends State<InvoicesListScreen> {
       appBar: AppBar(
         elevation: 0.1,
         backgroundColor: Theme.of(context).colorScheme.background,
-        title: Text(
-          S.of(context).invoices,
-          style: Theme.of(context)
-              .textTheme
-              .headlineSmall
-              ?.copyWith(fontWeight: FontWeight.w700),
-        ),
-        leading: ModalRoute.of(context)?.canPop ?? false
-            ? Center(
-                child: GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: const Icon(Icons.arrow_back_ios),
-                ),
-              )
-            : null,
+        title: Text('Invoices'),
       ),
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -127,142 +180,101 @@ class _InvoicesListScreenState extends State<InvoicesListScreen> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    resetInvoices();
+                  },
                   child: const Text('View'),
                 ),
               ),
               Expanded(
-                child: InvoiceList(
-                  phoneNumber: widget.userPhone,
-                  fromDate: selectedFromDate,
-                  toDate: selectedToDate,
+                child: ListView.builder(
+                  controller: _scrollController,
+                  itemCount: invoices.length + 1,
+                  itemBuilder: (context, index) {
+                    if (index == invoices.length) {
+                      return isLoading
+                          ? Center(child: CircularProgressIndicator())
+                          : hasMore
+                              ? Container() // Placeholder to trigger loading more items
+                              : Center(child: Text('No more invoices'));
+                    }
+
+                    var data = invoices[index].data() as Map<String, dynamic>;
+
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => InvoiceDetailsScreen(
+                                invoiceId: invoices[index].id),
+                          ),
+                        );
+                      },
+                      child: Card(
+                        elevation: 4.0,
+                        margin: EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 16.0),
+                        child: Container(
+                          padding: EdgeInsets.all(16.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 5,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      data['INVStoreName'],
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                    Text(
+                                      timestampToDateString(data['INVDATE']),
+                                      style: TextStyle(
+                                        color: Colors.grey[600],
+                                        fontSize: 14.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                flex: 5,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      data['INVUID'].toString(),
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                    Text(
+                                      data['INVTotal'].toString(),
+                                      style: TextStyle(
+                                        color: Colors.green[700],
+                                        fontSize: 14.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ],
           ),
         ),
       ),
-    );
-  }
-}
-
-class InvoiceList extends StatelessWidget {
-  final String phoneNumber;
-  final DateTime fromDate;
-  final DateTime toDate;
-
-  const InvoiceList({
-    required this.phoneNumber,
-    required this.fromDate,
-    required this.toDate,
-  });
-
-  Stream<QuerySnapshot> getInvoices() {
-    return FirebaseFirestore.instance
-        .collection('TomatoInvoices')
-        .where('INVCustomerID', isEqualTo: '01097777167')
-        // .where('INVDATE',
-        //     isGreaterThanOrEqualTo:
-        //         DateFormat('MM/dd/yyyy', 'en_US').format(fromDate))
-        // .where('INVDATE',
-        //     isLessThanOrEqualTo:
-        //         DateFormat('MM/dd/yyyy', 'en_US').format(toDate))
-        .snapshots();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: getInvoices(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        }
-
-        if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        }
-
-        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          return Center(child: Text('No invoices found.'));
-        }
-
-        var invoices = snapshot.data!.docs;
-
-        return ListView(
-          children: [
-            ...invoices.map((doc) {
-              Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-              return InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          InvoiceDetailsScreen(invoiceId: doc.id),
-                    ),
-                  );
-                },
-                child: Card(
-                  elevation: 4.0,
-                  margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                  child: Container(
-                    padding: EdgeInsets.all(16.0),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 5,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                data['INVStoreName'],
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                data['INVDATE'],
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 14.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                data['INVUID'].toString(),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              Text(
-                                data['INVTotal'].toString(),
-                                style: TextStyle(
-                                  color: Colors.green[700],
-                                  fontSize: 14.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            }).toList(),
-          ],
-        );
-      },
     );
   }
 }
