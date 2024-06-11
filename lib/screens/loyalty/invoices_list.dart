@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'invoice_details.dart';
-import 'utils.dart';
 
 class InvoicesListScreen extends StatefulWidget {
   final String userPhone;
@@ -37,7 +36,7 @@ class _InvoicesListScreenState extends State<InvoicesListScreen> {
         fetchInvoices();
       }
     });
-    fetchInvoices();
+    fetchInvoices(); // Initial fetch with the preset date range
   }
 
   @override
@@ -56,7 +55,6 @@ class _InvoicesListScreenState extends State<InvoicesListScreen> {
     if (picked != null && picked != selectedFromDate) {
       setState(() {
         selectedFromDate = picked;
-        resetInvoices();
       });
     }
   }
@@ -71,7 +69,6 @@ class _InvoicesListScreenState extends State<InvoicesListScreen> {
     if (picked != null && picked != selectedToDate) {
       setState(() {
         selectedToDate = picked;
-        resetInvoices();
       });
     }
   }
@@ -95,8 +92,10 @@ class _InvoicesListScreenState extends State<InvoicesListScreen> {
     Query query = FirebaseFirestore.instance
         .collection('TomatoInvoices')
         .where('INVCustomerID', isEqualTo: widget.userPhone)
-        .where('INVDATE', isGreaterThanOrEqualTo: selectedFromDate)
-        .where('INVDATE', isLessThanOrEqualTo: selectedToDate)
+        .where('INVDATE',
+            isGreaterThanOrEqualTo: Timestamp.fromDate(selectedFromDate))
+        .where('INVDATE',
+            isLessThanOrEqualTo: Timestamp.fromDate(selectedToDate))
         .orderBy('INVDATE')
         .limit(documentLimit);
 
@@ -276,5 +275,10 @@ class _InvoicesListScreenState extends State<InvoicesListScreen> {
         ),
       ),
     );
+  }
+
+  String timestampToDateString(Timestamp timestamp) {
+    DateTime date = timestamp.toDate();
+    return DateFormat('yyyy-MM-dd', 'en_US').format(date);
   }
 }
