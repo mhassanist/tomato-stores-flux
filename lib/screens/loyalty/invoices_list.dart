@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../generated/l10n.dart';
 import 'invoice_details.dart';
 
 class InvoicesListScreen extends StatefulWidget {
@@ -37,6 +38,167 @@ class _InvoicesListScreenState extends State<InvoicesListScreen> {
       }
     });
     fetchInvoices(); // Initial fetch with the preset date range
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0.1,
+        backgroundColor: Theme.of(context).colorScheme.background,
+        title: Text('Invoices'),
+      ),
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(S.of(context).from),
+                          ElevatedButton(
+                            onPressed: () => _selectFromDate(context),
+                            child: Text(
+                              DateFormat('dd-MM-yyyy', 'en_US')
+                                  .format(selectedFromDate),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(S.of(context).to),
+                          ElevatedButton(
+                            onPressed: () => _selectToDate(context),
+                            child: Text(
+                              DateFormat('dd-MM-yyyy', 'en_US')
+                                  .format(selectedToDate),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    resetInvoices();
+                  },
+                  child: Text(S.of(context).view),
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  controller: _scrollController,
+                  itemCount: invoices.length + 1,
+                  itemBuilder: (context, index) {
+                    if (index == invoices.length) {
+                      return isLoading
+                          ? const Center(
+                              child: Padding(
+                              padding: EdgeInsets.all(30.0),
+                              child: CircularProgressIndicator(),
+                            ))
+                          : hasMore
+                              ? Container() // Placeholder to trigger loading more items
+                              : Center(child: Text(S.of(context).noInvoices));
+                    }
+
+                    var data = invoices[index].data() as Map<String, dynamic>;
+
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => InvoiceDetailsScreen(
+                                invoiceId: invoices[index].id),
+                          ),
+                        );
+                      },
+                      child: Card(
+                        elevation: 4.0,
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 16.0),
+                        child: Container(
+                          padding: EdgeInsets.all(16.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 5,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      data['INVStoreName'],
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                    Text(
+                                      timestampToDateString(data['INVDATE']),
+                                      style: TextStyle(
+                                        color: Colors.grey[600],
+                                        fontSize: 14.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                flex: 5,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      data['INVUID'].toString(),
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                    Text(
+                                      data['INVTotal'].toString(),
+                                      style: TextStyle(
+                                        color: Colors.green[700],
+                                        fontSize: 14.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -91,6 +253,7 @@ class _InvoicesListScreenState extends State<InvoicesListScreen> {
 
     Query query = FirebaseFirestore.instance
         .collection('TomatoInvoices')
+        //.where('INVCustomerID', isEqualTo: '01097777167')
         .where('INVCustomerID', isEqualTo: widget.userPhone)
         .where('INVDATE',
             isGreaterThanOrEqualTo: Timestamp.fromDate(selectedFromDate))
@@ -118,163 +281,6 @@ class _InvoicesListScreenState extends State<InvoicesListScreen> {
     setState(() {
       isLoading = false;
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0.1,
-        backgroundColor: Theme.of(context).colorScheme.background,
-        title: Text('Invoices'),
-      ),
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Text("From Date"),
-                          ElevatedButton(
-                            onPressed: () => _selectFromDate(context),
-                            child: Text(
-                              DateFormat('yyyy-MM-dd', 'en_US')
-                                  .format(selectedFromDate),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Text("To Date"),
-                          ElevatedButton(
-                            onPressed: () => _selectToDate(context),
-                            child: Text(
-                              DateFormat('yyyy-MM-dd', 'en_US')
-                                  .format(selectedToDate),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    resetInvoices();
-                  },
-                  child: const Text('View'),
-                ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  controller: _scrollController,
-                  itemCount: invoices.length + 1,
-                  itemBuilder: (context, index) {
-                    if (index == invoices.length) {
-                      return isLoading
-                          ? Center(child: CircularProgressIndicator())
-                          : hasMore
-                              ? Container() // Placeholder to trigger loading more items
-                              : Center(child: Text('No more invoices'));
-                    }
-
-                    var data = invoices[index].data() as Map<String, dynamic>;
-
-                    return InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => InvoiceDetailsScreen(
-                                invoiceId: invoices[index].id),
-                          ),
-                        );
-                      },
-                      child: Card(
-                        elevation: 4.0,
-                        margin: EdgeInsets.symmetric(
-                            vertical: 8.0, horizontal: 16.0),
-                        child: Container(
-                          padding: EdgeInsets.all(16.0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 5,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      data['INVStoreName'],
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16.0,
-                                      ),
-                                    ),
-                                    Text(
-                                      timestampToDateString(data['INVDATE']),
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
-                                        fontSize: 14.0,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                flex: 5,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      data['INVUID'].toString(),
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16.0,
-                                      ),
-                                    ),
-                                    Text(
-                                      data['INVTotal'].toString(),
-                                      style: TextStyle(
-                                        color: Colors.green[700],
-                                        fontSize: 14.0,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 
   String timestampToDateString(Timestamp timestamp) {

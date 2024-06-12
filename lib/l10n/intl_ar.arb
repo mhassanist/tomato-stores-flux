@@ -14,7 +14,8 @@
 	"failedToUpdateUserAddress": "فشل تحديث عنوان المستخدم",
 	"addAddress" : "أضف عنوان",
 	"phoneMustBe11Digits":"رقم الهاتف يجب أن يكون ١١ خانة و يبدأ ب ٠١",
-
+	"to": "إلى",
+	"view": "عرض",
 	"NotEnoughBalanceException": "رصيدك غير كافي",
 	"CouponValueNotFoundException":
 	"قيمة تحويل النقاط لكوبون غير موجودة. تواصل مع مدير النظام",
@@ -30,6 +31,7 @@
 	"active_vouchers": "نشط",
 	"expired_vouchers": "منتهي",
 	"invoices": "الفواتير",
+	"noInvoices": "لا توجد فواتير",
 
 	"seeAll": "اظهار الكل",
 	"featureProducts": "منتجات مميزة",

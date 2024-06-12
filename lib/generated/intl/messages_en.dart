@@ -785,6 +785,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No forward history item"),
         "noInternetConnection":
             MessageLookupByLibrary.simpleMessage("No internet connection"),
+        "noInvoices": MessageLookupByLibrary.simpleMessage("No Invoices"),
         "noListingNearby":
             MessageLookupByLibrary.simpleMessage("No listing nearby!"),
         "noOrders": MessageLookupByLibrary.simpleMessage("No Orders"),
@@ -1309,6 +1310,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "title": MessageLookupByLibrary.simpleMessage("Title"),
         "titleAToZ": MessageLookupByLibrary.simpleMessage("Title: A to Z"),
         "titleZToA": MessageLookupByLibrary.simpleMessage("Title: Z to A"),
+        "to": MessageLookupByLibrary.simpleMessage("To"),
         "tooManyFaildedLogin": MessageLookupByLibrary.simpleMessage(
             "Too many failed login attempts. Please try again later."),
         "topUp": MessageLookupByLibrary.simpleMessage("Top Up"),
@@ -1392,6 +1394,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "viaWallet": MessageLookupByLibrary.simpleMessage("Via wallet"),
         "video": MessageLookupByLibrary.simpleMessage("Video"),
         "vietnamese": MessageLookupByLibrary.simpleMessage("Vietnamese"),
+        "view": MessageLookupByLibrary.simpleMessage("View"),
         "viewOnGoogleMaps":
             MessageLookupByLibrary.simpleMessage("View on Google Maps"),
         "viewRecentTransactions":

@@ -774,6 +774,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("لاتوجد عناصر محفوظة مرسلة "),
         "noInternetConnection":
             MessageLookupByLibrary.simpleMessage("لا يوجد اتصال بالإنترنت"),
+        "noInvoices": MessageLookupByLibrary.simpleMessage("لا توجد فواتير"),
         "noListingNearby":
             MessageLookupByLibrary.simpleMessage("لا توجد متاجر قريبة!"),
         "noOrders": MessageLookupByLibrary.simpleMessage("لا توجد طلبات"),
@@ -1287,6 +1288,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "title": MessageLookupByLibrary.simpleMessage("عنوان"),
         "titleAToZ": MessageLookupByLibrary.simpleMessage("أبجدي: تصاعدي"),
         "titleZToA": MessageLookupByLibrary.simpleMessage("أبجدي: تنازلي"),
+        "to": MessageLookupByLibrary.simpleMessage("إلى"),
         "tooManyFaildedLogin": MessageLookupByLibrary.simpleMessage(
             "عدد كبير جداً من محاولات تسجيل الدخول الفاشلة. الرجاء معاودة المحاولة في وقت لاحق."),
         "topUp": MessageLookupByLibrary.simpleMessage("اشحن"),
@@ -1366,6 +1368,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "viaWallet": MessageLookupByLibrary.simpleMessage("عبر المحفظة"),
         "video": MessageLookupByLibrary.simpleMessage("فيديو"),
         "vietnamese": MessageLookupByLibrary.simpleMessage("الفيتنامية"),
+        "view": MessageLookupByLibrary.simpleMessage("عرض"),
         "viewOnGoogleMaps":
             MessageLookupByLibrary.simpleMessage("عرض على خرائط جوجل"),
         "viewRecentTransactions":

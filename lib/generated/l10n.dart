@@ -300,6 +300,36 @@ class S {
     );
   }
 
+  /// `To`
+  String get to {
+    return Intl.message(
+      'To',
+      name: 'to',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View`
+  String get view {
+    return Intl.message(
+      'View',
+      name: 'view',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Invoices`
+  String get noInvoices {
+    return Intl.message(
+      'No Invoices',
+      name: 'noInvoices',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `See All`
   String get seeAll {
     return Intl.message(
